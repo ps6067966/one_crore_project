@@ -19,11 +19,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() async {
     await precacheImage(imageList[0].image, context);
     if (mounted) {

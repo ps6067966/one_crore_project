@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "506628519805",
+    "project_id": "one-crore-project",
+    "storage_bucket": "one-crore-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506628519805:android:022cd13b87e12a0f683e14",
+        "android_client_info": {
+          "package_name": "com.flashcoders.one_cr_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506628519805-vqqlk472r417tp540dvok0be7dcvkb0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd75SPanZOZbZ2SFjoS2fZzJcnriaqVvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506628519805-vqqlk472r417tp540dvok0be7dcvkb0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
