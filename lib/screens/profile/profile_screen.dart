@@ -1,11 +1,13 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:one_crore_project/routing/route_const.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -17,6 +19,47 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final User? currentUser = FirebaseAuth.instance.currentUser;
+  bool _isCreatingLink = false;
+  String _linkMessage = '';
+
+  Future<void> _createDynamicLink(bool short) async {
+    setState(() {
+      _isCreatingLink = true;
+    });
+
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://flashcoders.page.link',
+      longDynamicLink: Uri.parse(
+        'https://flashcoders.page.link?efr=0&ibi=com.flashcoders.one_cr_project&apn=com.flashcoders.one_cr_project&imv=0&amv=0&link=https%3A%2F%2Fexample%2Fhelloworld&ofl=https://ofl-example.com',
+      ),
+      link: Uri.parse("https://flashcoders.page.link"),
+      androidParameters: const AndroidParameters(
+        packageName: 'com.flashcoders.one_cr_project',
+        minimumVersion: 0,
+      ),
+    );
+
+    Uri url;
+    if (short) {
+      final ShortDynamicLink shortLink =
+          await dynamicLinks.buildShortLink(parameters);
+      url = shortLink.shortUrl;
+    } else {
+      url = await dynamicLinks.buildLink(parameters);
+    }
+
+    setState(() {
+      _linkMessage = "Download kr lo mera app es link se : ${url.toString()}";
+      _isCreatingLink = false;
+    });
+  }
+
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+  
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +181,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                           ),
                           const Icon(
-                            Icons.check_circle,
+                            Icons.verified_rounded,
                             color: Colors.green,
                           )
                         ],
@@ -154,6 +197,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         textAlign: TextAlign.center,
                       ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ListTile(
+                        onTap: () async {
+                          await _createDynamicLink(true);
+                          Share.share(_linkMessage);
+                        },
+                        trailing: const Icon(
+                          Icons.share_rounded,
+                          color: Colors.white,
+                        ),
+                        title: const Text("Refer Your Friends"),
+                      )
                     ],
                   ),
                 ),

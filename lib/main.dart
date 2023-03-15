@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      
       builder: (context, child) {
         mediaQuery = MediaQuery.of(context);
         return child!;
@@ -51,9 +52,7 @@ class MyApp extends StatelessWidget {
       useInheritedMediaQuery: true,
       title: '1 CR',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(useMaterial3: true),
     );
   }
 }

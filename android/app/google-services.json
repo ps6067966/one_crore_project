@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "506628519805-04jug8akfvrq0rj8uhg7bdlmvhkjfa4n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flashcoders.one_cr_project",
+            "certificate_hash": "79d5c10bed38d28a2ded5c15be4bf8c6de8f1683"
+          }
+        },
+        {
           "client_id": "506628519805-2ibak5ep913ph0hnlrtdrpnahmbpevtf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
