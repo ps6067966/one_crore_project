@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -21,10 +19,10 @@ class AuthScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log("Auth Screen");
     final size = mediaQuery?.size ?? MediaQuery.of(context).size;
     return Semantics(
       attributedHint: AttributedString("Auth Screen"),
+      label: "Auth Screen",
       child: Scaffold(
         body: SafeArea(
             child: Column(

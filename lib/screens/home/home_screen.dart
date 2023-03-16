@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/widgets/prefetch_image.dart';
 
 import '../../routing/route_const.dart';
+import '../../util/check_update.dart';
 
 class Services {
   final int id;
@@ -35,12 +36,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    UpdateChecker.checkForUpdate();
   }
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
       attributedHint: AttributedString("Home Screen"),
+      label: "Home Screen",
       child: Scaffold(
         body: SafeArea(
           child: Padding(

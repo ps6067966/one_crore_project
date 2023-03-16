@@ -8,4 +8,5 @@ abstract class RouteNames {
   static const addUPIAccountUrl = "addUPIAccount";
   static const privacyPolicy = "/privacyPolicy";
   static const termsAndConditions = "/termsAndConditions";
+  static const rewardScreen = "/reward";
 }
