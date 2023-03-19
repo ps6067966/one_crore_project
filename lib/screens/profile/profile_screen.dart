@@ -109,6 +109,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       image: DecorationImage(
                         image: ExtendedNetworkImageProvider(
                           currentUser?.photoURL ?? "",
+                          cache: true,
                         ),
                         fit: BoxFit.cover,
                       ),

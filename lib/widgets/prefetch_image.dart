@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'custom_shimmer_card.dart';
 
@@ -29,6 +30,23 @@ class PrefetchImage extends StatefulWidget {
 class PrefetchImageState extends State<PrefetchImage> {
   @override
   Widget build(BuildContext context) {
+    if (widget.imageUrl.contains(".svg")) {
+      return SvgPicture.network(
+        widget.imageUrl,
+        width: widget.width,
+        height: widget.height,
+        fit: widget.fit ?? BoxFit.cover,
+        semanticsLabel: widget.semantic,
+        placeholderBuilder: (context) {
+          return CustomShimmerCard(
+            width: widget.width,
+            height: widget.height,
+            isProgressRunning: true,
+            child: const SizedBox(),
+          );
+        },
+      );
+    }
     return ExtendedImage.network(
       widget.imageUrl,
       width: widget.width,

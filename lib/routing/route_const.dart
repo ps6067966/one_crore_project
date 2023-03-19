@@ -8,6 +8,9 @@ abstract class RouteNames {
   static const addUPIAccount = "/googleOpinionReward/addUPIAccount";
   static const addUPIAccountUrl = "addUPIAccount";
 
+  static const transactions = "/googleOpinionReward/transactions";
+  static const transactionsUrl = "transactions";
+
   static const privacyPolicy = "/privacyPolicy";
   static const termsAndConditions = "/termsAndConditions";
   static const rewardScreen = "/reward";

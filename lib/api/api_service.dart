@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:one_crore_project/model/get_model/transaction_model.dart';
 import 'package:one_crore_project/model/post_model/user_post_model.dart';
 
 import '../model/get_model/bank_account_model.dart';
@@ -123,7 +124,7 @@ class ApiServices {
       final FirebaseAuth auth = FirebaseAuth.instance;
       final response =
           await dio.put('https://onecrore.deno.dev/transactions', data: {
-        "email": auth.currentUser?.email,
+        "email_id": auth.currentUser?.email,
         "error_message": errorMessage,
         "product_id": productID,
         "purchase_id": purchaseID,
@@ -137,5 +138,21 @@ class ApiServices {
       log("$e");
     }
     return false;
+  }
+
+  static Future<List<TransactionModel>> getTransactions() async {
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final response = await dio.get(
+        'https://onecrore.deno.dev/transactions/${auth.currentUser?.email}',
+      );
+      if (response.statusCode == 200) {
+        return List<TransactionModel>.from(
+            response.data.map((x) => TransactionModel.fromJson(x)));
+      }
+    } catch (e) {
+      log("$e");
+    }
+    return [];
   }
 }

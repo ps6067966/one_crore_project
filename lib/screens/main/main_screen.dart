@@ -9,7 +9,6 @@ import 'package:one_crore_project/screens/notification/notification_screen.dart'
 import 'package:one_crore_project/screens/profile/profile_screen.dart';
 import 'package:one_crore_project/screens/reward/reward_screen.dart';
 import 'package:one_crore_project/screens/think/think_screen.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   final int? index;
@@ -47,11 +46,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     if (widget.index != null) {
       selectedIndex = widget.index!;
     }
-    getPermission();
-  }
-
-  getPermission() async {
-    await Permission.storage.request();
   }
 
   @override

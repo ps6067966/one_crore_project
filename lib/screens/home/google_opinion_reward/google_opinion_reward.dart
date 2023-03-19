@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -7,6 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:one_crore_project/api/api_service.dart';
 import 'package:one_crore_project/routing/route_const.dart';
+import 'package:one_crore_project/widgets/prefetch_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GoogleOpinionReward {
   final String amount;
@@ -29,6 +34,7 @@ class GoogleOpinionRewardScreen extends ConsumerStatefulWidget {
 class _GoogleOpinionRewardScreenState
     extends ConsumerState<GoogleOpinionRewardScreen> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
   int userId = 0;
   List<GoogleOpinionReward> opinionRewards = [
     GoogleOpinionReward(amount: "50", amountThatUserGet: "32.5"),
@@ -50,54 +56,162 @@ class _GoogleOpinionRewardScreenState
   @override
   void initState() {
     super.initState();
-
+    final Stream<List<PurchaseDetails>> purchaseUpdated =
+        InAppPurchase.instance.purchaseStream;
+    _subscription = purchaseUpdated.listen(
+        (purchaseDetailsList) {
+          _listenToPurchaseUpdated(purchaseDetailsList);
+        },
+        onDone: () {},
+        onError: (error) {
+          // handle error here.
+        });
     getInAppPurchase();
+  }
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+            purchaseDetails.status == PurchaseStatus.restored) {
+          await ApiServices.addPurchaseDetails(
+            errorMessage: purchaseDetails.error?.message ?? "",
+            productID: purchaseDetails.productID,
+            purchaseID: purchaseDetails.purchaseID ?? "",
+            userId: userId,
+            transactionDate: purchaseDetails.transactionDate ?? "",
+          );
+        }
+        if (purchaseDetails.pendingCompletePurchase) {
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
   }
 
   getInAppPurchase() async {
     log("isAvailable: ${await _inAppPurchase.isAvailable()}");
     userId = (await ApiServices.getUserDetails())?.id ?? 0;
-    _inAppPurchase.purchaseStream.listen((event) {
-      log("event: $event");
-      // ignore: avoid_function_literals_in_foreach_calls
-      event.forEach((element) async {
-        await ApiServices.addPurchaseDetails(
-          errorMessage: element.error?.message ?? "",
-          productID: element.productID,
-          purchaseID: element.purchaseID ?? "",
-          userId: userId,
-          transactionDate: element.transactionDate ?? "",
-        );
-      });
-    });
+
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Google Opinion Reward"),
+        title: const Text(
+          "Google Opinion Reward",
+          style: TextStyle(
+            fontSize: 15,
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                      title: const Text("How to use this service?"),
+                      content:
+                          Column(mainAxisSize: MainAxisSize.min, children: [
+                        const Text(
+                          "1. Download Google Opinion Rewards App from Play Store",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              launchUrl(
+                                  Uri.parse(
+                                    "https://play.google.com/store/apps/details?id=com.google.android.apps.paidtasks",
+                                  ),
+                                  mode:
+                                      LaunchMode.externalNonBrowserApplication);
+                            },
+                            icon: const Icon(Icons.download),
+                            label: const Text("Download")),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "2. Complete the surveys and earn Google Play Balance",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "3. Select the amount you want to redeem and pay from play balance",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "4. You will get the amount in your UPI ID within some days",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ]));
+                },
+              );
+            },
+            child: const Icon(Icons.info),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+        ],
       ),
+      floatingActionButton: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
+          child: const PrefetchImage(
+            imageUrl: "https://img.icons8.com/color/96/null/whatsapp--v1.png",
+            width: 60,
+            height: 60,
+          ),
+          onPressed: () {
+            // show Dialog
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                    title: const Text("We care that's why We build"),
+                    content: Column(mainAxisSize: MainAxisSize.min, children: [
+                      const Text(
+                        "To provide better service and support, We are making a group on WhatsApp. If you want to join the group, please click on the button below.",
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          launchUrl(
+                              Uri.parse(
+                                "https://chat.whatsapp.com/BG8VXtKvKjyAKPN9IuKk4N",
+                              ),
+                              mode: LaunchMode.externalNonBrowserApplication);
+                        },
+                        child: const Text("Join"),
+                      )
+                    ]));
+              },
+            );
+          }),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Container(
-                color: Colors.amber,
-                width: double.infinity,
-                height: 70,
-                child: Center(
-                  child: Text(
-                    "This service in under development\nDon't use it for now.",
-                    style: GoogleFonts.roboto(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 8,
               ),
@@ -120,39 +234,66 @@ class _GoogleOpinionRewardScreenState
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  GoRouter.of(context).push(RouteNames.addUPIAccount);
-                },
-                icon: const Icon(
-                  Icons.account_balance,
-                ),
-                label: FutureBuilder(
-                    future: ApiServices.getBankAccountDetails(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text("Add UPI Account");
-                      }
-                      if (snapshot.hasError) {
-                        return const Text("Add UPI Account");
-                      }
-                      if (snapshot.hasData &&
-                          snapshot.connectionState == ConnectionState.done) {
-                        return Text(
-                            "${(snapshot.data?.email?.isEmpty ?? true) ? "Add" : "Edit"} UPI Account");
-                      }
-                      return const Text("Add UPI Account");
-                    }),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        GoRouter.of(context).push(RouteNames.addUPIAccount);
+                      },
+                      icon: const Icon(
+                        Icons.account_balance,
+                      ),
+                      label: FutureBuilder(
+                          future: ApiServices.getBankAccountDetails(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text("Add UPI Account");
+                            }
+                            if (snapshot.hasError) {
+                              return const Text("Add UPI Account");
+                            }
+                            if (snapshot.hasData &&
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              return Text(
+                                  "${(snapshot.data?.email?.isEmpty ?? true) ? "Add" : "Edit"} UPI Account");
+                            }
+                            return const Text("Add UPI Account");
+                          }),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        GoRouter.of(context).push(RouteNames.transactions);
+                      },
+                      icon: const Icon(
+                        Icons.receipt_long_rounded,
+                      ),
+                      label: const Text("Transactions"),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
               ),
               Expanded(
                 child: FutureBuilder(
-                    future: _inAppPurchase
-                        .queryProductDetails({"50_google_opinion_rewards"}),
+                    future: _inAppPurchase.queryProductDetails({
+                      "25_google_opinion_rewards",
+                      "35_google_opinion_rewards",
+                      "50_google_opinion_rewards",
+                      "70_google_opinion_rewards",
+                      "100_google_opinion_rewards"
+                    }),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Center(
@@ -171,7 +312,7 @@ class _GoogleOpinionRewardScreenState
                             itemBuilder: (context, index) {
                               final item = snapshot.data?.productDetails[index];
                               return ListTile(
-                                title: Text("Redeem Pack ₹${item?.price}"),
+                                title: Text("Redeem Pack ${item?.price}"),
                                 subtitle: Text(
                                     "You get ₹${(double.parse(item!.price.substring(1)) * 70) / 100} in your UPI ID"),
                                 leading: CircleAvatar(
@@ -180,6 +321,7 @@ class _GoogleOpinionRewardScreenState
                                     item.price,
                                     style: const TextStyle(
                                       color: Colors.white,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:chatgpt_client/chatgpt_client.dart';
 import 'package:flutter/material.dart';
 
 class QuestionAnswer {
@@ -20,7 +23,7 @@ class QuestionAnswer {
   }
 }
 
-const apiKey = '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';
+const apiKey = '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';
 
 class ChatGptScreen extends StatefulWidget {
   const ChatGptScreen({super.key});
@@ -32,6 +35,8 @@ class ChatGptScreen extends StatefulWidget {
 class _ChatGptScreenState extends State<ChatGptScreen> {
   String? answer;
   bool loading = false;
+  ChatGPTClient client = ChatGPTClient(
+      apiKey: "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");
   final testPrompt =
       'Which Disney character famously leaves a glass slipper behind at a royal ball?';
 
@@ -96,7 +101,16 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                     child: Material(
                       color: Colors.blue, // Button color
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          var text = "";
+                          final stream = client.sendMessageStream(
+                            textEditingController.text,
+                          );
+                          await for (final textChunk in stream) {
+                            text += textChunk;
+                            log(textChunk);
+                          }
+                        },
                         child: const SizedBox(
                           width: 48,
                           height: 48,

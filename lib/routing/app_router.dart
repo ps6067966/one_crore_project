@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:one_crore_project/routing/route_const.dart';
 import 'package:one_crore_project/screens/auth/auth_screen.dart';
 import 'package:one_crore_project/screens/home/google_opinion_reward/google_opinion_reward.dart';
+import 'package:one_crore_project/screens/home/google_opinion_reward/opinion_reward_transaction.dart';
 import 'package:one_crore_project/screens/main/main_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/privacy_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/terms_screen.dart';
@@ -70,6 +71,12 @@ final GoRouter router = GoRouter(
             path: RouteNames.addUPIAccountUrl,
             builder: (context, state) {
               return const AddUPIAccountScreen();
+            },
+          ),
+          GoRoute(
+            path: RouteNames.transactionsUrl,
+            builder: (context, state) {
+              return const OpinionRewardTransactions();
             },
           ),
         ]),

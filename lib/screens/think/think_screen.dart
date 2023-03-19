@@ -1,9 +1,8 @@
+import 'package:awesome_snackbar_content_new/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:one_crore_project/routing/route_const.dart';
 
 import '../../widgets/prefetch_image.dart';
 
@@ -25,7 +24,7 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
   List<ThinkModel> thinkList = [
     ThinkModel(
         id: 1,
-        name: "Chat GPT",
+        name: "Chat GPT - AI Chatbot",
         imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"),
   ];
@@ -70,7 +69,21 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                         onTap: () {
                           switch (think.id) {
                             case 1:
-                              context.push(RouteNames.chatGptScreen);
+                              final snackBar = SnackBar(
+                                elevation: 2,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                content: AwesomeSnackbarContent(
+                                  title: "Chat GPT is not available yet",
+                                  message: "",
+                                  inMaterialBanner: true,
+                                  contentType: ContentType.failure,
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                               break;
                             case 2:
                               break;
