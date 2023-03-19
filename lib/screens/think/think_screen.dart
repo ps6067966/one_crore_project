@@ -4,43 +4,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/routing/route_const.dart';
-import 'package:one_crore_project/util/launch_url.dart';
 
 import '../../widgets/prefetch_image.dart';
 
-class Rewards {
+class ThinkModel {
   final int id;
   final String name;
   final String imageUrl;
-  Rewards({required this.id, required this.name, required this.imageUrl});
+  ThinkModel({required this.id, required this.name, required this.imageUrl});
 }
 
-class RewardScreen extends ConsumerStatefulWidget {
-  const RewardScreen({super.key});
+class ThinkScreen extends ConsumerStatefulWidget {
+  const ThinkScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _RewardScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ThinkScreenState();
 }
 
-class _RewardScreenState extends ConsumerState<RewardScreen> {
-  List<Rewards> rewards = [
-    Rewards(
-      id: 1,
-      name: "Github Education Pack",
-      imageUrl: "https://img.icons8.com/3d-fluency/188/null/github.png",
-    ),
-    Rewards(
-      id: 2,
-      name: "Z Library - Free E-Books",
-      imageUrl:
-          "https://techdator.net/wp-content/uploads/2022/05/Z-Library-Alternatives.png",
-    ),
+class _ThinkScreenState extends ConsumerState<ThinkScreen> {
+  List<ThinkModel> thinkList = [
+    ThinkModel(
+        id: 1,
+        name: "Chat GPT",
+        imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"),
   ];
+
+  // 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
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Semantics(
-      attributedHint: AttributedString("Home Screen"),
-      label: "Home Screen",
+      attributedHint: AttributedString("Think Screen"),
+      label: "Think Screen",
       child: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -49,7 +45,7 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Rewards",
+                  "Think",
                   style: GoogleFonts.roboto(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -60,25 +56,23 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                 ),
                 Expanded(
                   child: GridView.builder(
-                    restorationId: "reward_grid",
+                    restorationId: "think_grid",
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemCount: rewards.length,
+                    itemCount: thinkList.length,
                     itemBuilder: (context, index) {
-                      final reward = rewards[index];
+                      final think = thinkList[index];
                       return InkWell(
                         onTap: () {
-                          switch (reward.id) {
+                          switch (think.id) {
                             case 1:
-                              context
-                                  .push(RouteNames.githubEducationPackScreen);
+                              context.push(RouteNames.chatGptScreen);
                               break;
                             case 2:
-                              LaunchUrl.launch("https://singlelogin.me");
                               break;
                           }
                         },
@@ -94,14 +88,14 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                               child: Column(
                                 children: [
                                   PrefetchImage(
-                                      imageUrl: reward.imageUrl,
+                                      imageUrl: think.imageUrl,
                                       height: 70,
                                       width: 70),
                                   const SizedBox(
                                     height: 8,
                                   ),
                                   Text(
-                                    reward.name,
+                                    think.name,
                                     style: GoogleFonts.roboto(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,

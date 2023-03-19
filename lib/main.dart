@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'constant/color.dart';
 import 'constant/global.dart';
 import 'firebase_options.dart';
 import 'local_storage/prefs.dart';
@@ -53,8 +54,30 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
+          colorScheme: const ColorScheme.dark(
+            primary: primaryColor,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+          useMaterial3: true,
+          typography: Typography.material2021(),
+          listTileTheme: const ListTileThemeData(
+            textColor: Colors.white,
+            style: ListTileStyle.list,
+          )),
+      theme: ThemeData.dark(useMaterial3: true).copyWith(
+        colorScheme: const ColorScheme.dark(
+          primary: primaryColor,
+        ),
+        useMaterial3: true,
       ),
-      theme: ThemeData.dark(useMaterial3: true).copyWith(),
     );
   }
 }

@@ -8,6 +8,8 @@ import 'package:one_crore_project/screens/terms_privacy/privacy_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/terms_screen.dart';
 
 import '../screens/home/google_opinion_reward/add_upi_account.dart';
+import '../screens/reward/github_education_pack/github_education_pack_screen.dart';
+import '../screens/think/chat_gpt_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: FirebaseAuth.instance.currentUser == null
@@ -44,6 +46,18 @@ final GoRouter router = GoRouter(
         return const MainScreen(
           index: 4,
         );
+      },
+    ),
+    GoRoute(
+      path: RouteNames.githubEducationPackScreen,
+      builder: (context, state) {
+        return const GithubEducationPackScreen();
+      },
+    ),
+    GoRoute(
+      path: RouteNames.chatGptScreen,
+      builder: (context, state) {
+        return const ChatGptScreen();
       },
     ),
     GoRoute(

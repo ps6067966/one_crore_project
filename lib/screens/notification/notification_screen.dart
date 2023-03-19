@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
@@ -34,8 +35,13 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Lottie.network(
-                'https://raw.githubusercontent.com/xvrh/lottie-flutter/master/example/assets/Mobilo/A.json'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.network(
+                        'https://assets3.lottiefiles.com/temp/lf20_151YtU.json'),
+                  ],
+                ),
               ],
             ),
           ),

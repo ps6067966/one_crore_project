@@ -4,11 +4,12 @@ import 'package:bottom_bar_matu/bottom_bar_matu.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:one_crore_project/screens/chat/chat_screen.dart';
 import 'package:one_crore_project/screens/home/home_screen.dart';
 import 'package:one_crore_project/screens/notification/notification_screen.dart';
 import 'package:one_crore_project/screens/profile/profile_screen.dart';
 import 'package:one_crore_project/screens/reward/reward_screen.dart';
+import 'package:one_crore_project/screens/think/think_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   final int? index;
@@ -29,9 +30,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       case 1:
         return const RewardScreen();
       case 2:
-        return const NotificationScreen();
+        return const ThinkScreen();
       case 3:
-        return const ChatScreen();
+        return const NotificationScreen();
+
       case 4:
         return const ProfileScreen();
       default:
@@ -45,10 +47,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     if (widget.index != null) {
       selectedIndex = widget.index!;
     }
-    
+    getPermission();
   }
 
-  
+  getPermission() async {
+    await Permission.storage.request();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +65,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         items: [
           BottomBarItem(iconData: Icons.home),
           BottomBarItem(iconData: Icons.redeem),
+          BottomBarItem(
+            iconData: Icons.psychology_alt_rounded,
+          ),
           BottomBarItem(iconData: Icons.notifications),
-          BottomBarItem(iconData: Icons.chat),
           BottomBarItem(iconData: Icons.person_4_rounded),
         ],
         onSelect: (index) {

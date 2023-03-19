@@ -33,8 +33,8 @@ class _CustomShimmerCardState extends State<CustomShimmerCard> {
           height: widget.height,
           beginAlignment: Alignment.topLeft,
           endAlignment: Alignment.bottomRight,
-          backgroundColor: Colors.grey.shade200,
-          shimmerColor: Colors.grey.shade300,
+          backgroundColor: Colors.black,
+          shimmerColor: Colors.black12,
         ),
       );
     }
