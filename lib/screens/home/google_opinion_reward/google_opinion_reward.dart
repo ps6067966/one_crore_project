@@ -188,7 +188,7 @@ class _GoogleOpinionRewardScreenState
               context: context,
               builder: (context) {
                 return AlertDialog(
-                    title: const Text("We care that's why We build"),
+                    title: const Text("We Care that's why We Build"),
                     content: Column(mainAxisSize: MainAxisSize.min, children: [
                       const Text(
                         "To provide better service and support, We are making a group on WhatsApp. If you want to join the group, please click on the button below.",

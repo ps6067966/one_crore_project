@@ -3,15 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:one_crore_project/api/api_service.dart';
 
-class OpinionRewardTransactions extends StatefulWidget {
+class OpinionRewardTransactions extends StatelessWidget {
   const OpinionRewardTransactions({super.key});
 
-  @override
-  State<OpinionRewardTransactions> createState() =>
-      _OpinionRewardTransactionsState();
-}
-
-class _OpinionRewardTransactionsState extends State<OpinionRewardTransactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
