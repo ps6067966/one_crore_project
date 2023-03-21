@@ -56,7 +56,7 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 40,
                 ),
                 Expanded(
                   child: GridView.builder(
@@ -65,6 +65,7 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
+                      mainAxisExtent: 140,
                       mainAxisSpacing: 10,
                     ),
                     itemCount: rewards.length,
@@ -82,36 +83,47 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                               break;
                           }
                         },
-                        child: Card(
-                          elevation: 5,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  PrefetchImage(
-                                      imageUrl: reward.imageUrl,
-                                      height: 70,
-                                      width: 70),
-                                  const SizedBox(
-                                    height: 8,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Card(
+                              elevation: 5,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+                                      Text(
+                                        reward.name,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    reward.name,
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Positioned.fill(
+                              top: -30,
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: PrefetchImage(
+                                    imageUrl: reward.imageUrl,
+                                    height: 70,
+                                    width: 70),
+                              ),
+                            )
+                          ],
                         ),
                       );
                     },

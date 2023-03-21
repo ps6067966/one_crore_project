@@ -1,16 +1,22 @@
-import 'package:awesome_snackbar_content_new/awesome_snackbar_content.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/prefetch_image.dart';
+import '../../widgets/traingle_painter.dart';
 
 class ThinkModel {
   final int id;
   final String name;
-  final String imageUrl;
-  ThinkModel({required this.id, required this.name, required this.imageUrl});
+  final String description;
+  String imageUrl;
+  ThinkModel(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.imageUrl});
 }
 
 class ThinkScreen extends ConsumerStatefulWidget {
@@ -21,18 +27,29 @@ class ThinkScreen extends ConsumerStatefulWidget {
 }
 
 class _ThinkScreenState extends ConsumerState<ThinkScreen> {
+  final storage = FirebaseStorage.instance.ref("brain_storming.png");
   List<ThinkModel> thinkList = [
     ThinkModel(
-        id: 1,
-        name: "Chat GPT - AI Chatbot",
-        imageUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"),
+      id: 1,
+      name: "Brain Storming",
+      description: "Discover your hidden potential",
+      imageUrl: "",
+    )
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    storage.getDownloadURL().then((value) => {
+          setState(() {
+            thinkList[0].imageUrl = value;
+          })
+        });
+  }
 
   // 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
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Semantics(
       attributedHint: AttributedString("Think Screen"),
       label: "Think Screen",
@@ -51,16 +68,18 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 Expanded(
                   child: GridView.builder(
                     restorationId: "think_grid",
+                    physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: 1,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
+                      mainAxisExtent: 150,
                     ),
                     itemCount: thinkList.length,
                     itemBuilder: (context, index) {
@@ -69,56 +88,112 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                         onTap: () {
                           switch (think.id) {
                             case 1:
-                              final snackBar = SnackBar(
-                                elevation: 2,
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.transparent,
-                                content: AwesomeSnackbarContent(
-                                  title: "Chat GPT is not available yet",
-                                  message: "",
-                                  inMaterialBanner: true,
-                                  contentType: ContentType.failure,
-                                ),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              break;
+
                             case 2:
                               break;
                           }
                         },
-                        child: Card(
-                          elevation: 5,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  PrefetchImage(
-                                      imageUrl: think.imageUrl,
-                                      height: 70,
-                                      width: 70),
-                                  const SizedBox(
-                                    height: 8,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          alignment: Alignment.centerRight,
+                          fit: StackFit.expand,
+                          children: [
+                            Card(
+                              shadowColor: Colors.white,
+                              color: Colors.lightGreenAccent,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(60),
+                                ),
+                              ),
+                              elevation: 3,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(60),
                                   ),
-                                  Text(
-                                    think.name,
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+                                      Text(
+                                        think.name,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 25,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        think.description,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Positioned.fill(
+                              top: -4,
+                              left: 10,
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 8.0,
+                                      width: 5.0,
+                                      child: CustomPaint(
+                                        painter: TrianglePainter(),
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(6.0),
+                                              bottomLeft:
+                                                  Radius.circular(6.0))),
+                                      width: 120.0,
+                                      height: 30.0,
+                                      child: const Center(
+                                        child: Text(
+                                          'Coming Soon',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned.fill(
+                              top: -50,
+                              right: 10,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: PrefetchImage(
+                                  imageUrl: think.imageUrl,
+                                  height: 100,
+                                  width: 100,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       );
                     },

@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content_new/awesome_snackbar_content.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -31,6 +32,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         name: "Google Opinion Rewards",
         imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/b/b1/Google_Opinion_Rewards_app_logo.png"),
+    Services(
+        id: 2,
+        name: "Chat GPT - AI Chatbot",
+        imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"),
   ];
 
   @override
@@ -59,7 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 40,
                 ),
                 Expanded(
                   child: GridView.builder(
@@ -67,6 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
+                      mainAxisExtent: 150,
                       mainAxisSpacing: 10,
                     ),
                     itemCount: serviceList.length,
@@ -74,41 +81,73 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       final service = serviceList[index];
                       return InkWell(
                         onTap: () {
-                          if (service.id == 1) {
-                            GoRouter.of(context)
-                                .push(RouteNames.googleOpinionRewardScreen);
+                          switch (service.id) {
+                            case 1:
+                              GoRouter.of(context)
+                                  .push(RouteNames.googleOpinionRewardScreen);
+                              break;
+                            case 2:
+                              final snackBar = SnackBar(
+                                elevation: 2,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                content: AwesomeSnackbarContent(
+                                  title: "Chat GPT is not available yet",
+                                  message: "",
+                                  inMaterialBanner: true,
+                                  contentType: ContentType.failure,
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+
+                              break;
                           }
                         },
-                        child: Card(
-                          elevation: 5,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  PrefetchImage(
-                                      imageUrl: service.imageUrl,
-                                      height: 70,
-                                      width: 70),
-                                  const SizedBox(
-                                    height: 8,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Card(
+                              elevation: 5,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+                                      Text(
+                                        service.name,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    service.name,
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Positioned.fill(
+                              top: -30,
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: PrefetchImage(
+                                    imageUrl: service.imageUrl,
+                                    height: 70,
+                                    width: 70),
+                              ),
+                            )
+                          ],
                         ),
                       );
                     },
