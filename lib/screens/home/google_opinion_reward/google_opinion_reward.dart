@@ -94,8 +94,9 @@ class _GoogleOpinionRewardScreenState
   getInAppPurchase() async {
     log("isAvailable: ${await _inAppPurchase.isAvailable()}");
     userId = (await ApiServices.getUserDetails())?.id ?? 0;
-
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -173,40 +174,45 @@ class _GoogleOpinionRewardScreenState
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(35),
-          ),
-          child: const PrefetchImage(
-            imageUrl: "https://img.icons8.com/color/96/null/whatsapp--v1.png",
-            width: 60,
-            height: 60,
-          ),
-          onPressed: () {
-            // show Dialog
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                    title: const Text("We Care that's why We Build"),
-                    content: Column(mainAxisSize: MainAxisSize.min, children: [
-                      const Text(
-                        "To provide better service and support, We are making a group on WhatsApp. If you want to join the group, please click on the button below.",
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          launchUrl(
-                              Uri.parse(
-                                "https://chat.whatsapp.com/BG8VXtKvKjyAKPN9IuKk4N",
-                              ),
-                              mode: LaunchMode.externalNonBrowserApplication);
-                        },
-                        child: const Text("Join"),
-                      )
-                    ]));
-              },
-            );
-          }),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: FloatingActionButton(
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35),
+            ),
+            child: const PrefetchImage(
+              imageUrl: "https://img.icons8.com/color/96/null/whatsapp--v1.png",
+              width: 60,
+              height: 60,
+            ),
+            onPressed: () {
+              // show Dialog
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                      title: const Text("We Care that's why We Build"),
+                      content:
+                          Column(mainAxisSize: MainAxisSize.min, children: [
+                        const Text(
+                          "To provide better service and support, We are making a group on WhatsApp. If you want to join the group, please click on the button below.",
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            launchUrl(
+                                Uri.parse(
+                                  "https://chat.whatsapp.com/BG8VXtKvKjyAKPN9IuKk4N",
+                                ),
+                                mode: LaunchMode.externalNonBrowserApplication);
+                          },
+                          child: const Text("Join"),
+                        )
+                      ]));
+                },
+              );
+            }),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -230,7 +236,6 @@ class _GoogleOpinionRewardScreenState
                 textAlign: TextAlign.start,
                 style: GoogleFonts.roboto(
                   fontSize: 16,
-                  color: Colors.white54,
                 ),
               ),
               const SizedBox(

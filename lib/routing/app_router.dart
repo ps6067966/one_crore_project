@@ -8,6 +8,7 @@ import 'package:one_crore_project/screens/main/main_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/privacy_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/terms_screen.dart';
 
+import '../screens/chat/chat_screem.dart';
 import '../screens/home/google_opinion_reward/add_upi_account.dart';
 import '../screens/reward/github_education_pack/github_education_pack_screen.dart';
 import '../screens/think/chat_gpt_screen.dart';
@@ -80,5 +81,11 @@ final GoRouter router = GoRouter(
             },
           ),
         ]),
+    GoRoute(
+      path: RouteNames.chatScreen,
+      builder: (context, state) {
+        return const ChatRoomScreen();
+      },
+    ),
   ],
 );

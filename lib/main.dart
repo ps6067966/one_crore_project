@@ -52,31 +52,46 @@ class MyApp extends StatelessWidget {
       useInheritedMediaQuery: true,
       title: '1 CR',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
-          colorScheme: const ColorScheme.dark(
-            primary: primaryColor,
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: primaryColor,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-          useMaterial3: true,
-          typography: Typography.material2021(),
-          listTileTheme: const ListTileThemeData(
-            textColor: Colors.white,
-            style: ListTileStyle.list,
-          )),
-      theme: ThemeData.dark(useMaterial3: true).copyWith(
         colorScheme: const ColorScheme.dark(
           primary: primaryColor,
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
         useMaterial3: true,
+        typography: Typography.material2021(),
+        listTileTheme: const ListTileThemeData(
+          textColor: Colors.white,
+          style: ListTileStyle.list,
+        ),
+      ),
+      theme: ThemeData.light(useMaterial3: true).copyWith(
+        colorScheme: const ColorScheme.light(
+          primary: primaryColor,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        useMaterial3: true,
+        typography: Typography.material2021(),
+        listTileTheme: const ListTileThemeData(
+          textColor: primaryBlackColor,
+          style: ListTileStyle.list,
+        ),
       ),
     );
   }

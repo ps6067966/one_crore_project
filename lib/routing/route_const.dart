@@ -17,4 +17,5 @@ abstract class RouteNames {
   static const githubEducationPackScreen = "/githubEducationPack";
 
   static const chatGptScreen = "/chatGpt";
+  static const chatScreen = "/chatScreen";
 }

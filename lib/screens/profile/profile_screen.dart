@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/routing/route_const.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -113,7 +114,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ),
                         fit: BoxFit.cover,
                       ),
-                      border: Border.all(color: Colors.black, width: 3),
+                      border: Border.all(color: primaryBlackColor, width: 3),
                       shape: BoxShape.circle,
                     ),
                   ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:one_crore_project/api/api_service.dart';
+import 'package:one_crore_project/constant/color.dart';
 
 class OpinionRewardTransactions extends StatelessWidget {
   const OpinionRewardTransactions({super.key});
@@ -41,7 +42,7 @@ class OpinionRewardTransactions extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: ListTile(
-                          tileColor: Colors.black,
+                          tileColor: primaryBlackColor,
                           title: Text(transaction?.productId ?? ""),
                           subtitle: Text(transaction?.purchaseId ?? ""),
                           trailing: Text(transaction?.transactionDate ?? ""),

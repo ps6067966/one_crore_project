@@ -4,11 +4,13 @@ import 'package:bottom_bar_matu/bottom_bar_matu.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/screens/home/home_screen.dart';
 import 'package:one_crore_project/screens/notification/notification_screen.dart';
 import 'package:one_crore_project/screens/profile/profile_screen.dart';
 import 'package:one_crore_project/screens/reward/reward_screen.dart';
 import 'package:one_crore_project/screens/think/think_screen.dart';
+import 'package:one_crore_project/util/utils.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   final int? index;
@@ -55,7 +57,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return Scaffold(
       bottomNavigationBar: BottomBarDoubleBullet(
         selectedIndex: selectedIndex,
-        backgroundColor: Colors.black54,
+        backgroundColor:
+            context.isDarkMode ? primaryBlackColor : Colors.grey.shade200,
         items: [
           BottomBarItem(iconData: Icons.home),
           BottomBarItem(iconData: Icons.redeem),

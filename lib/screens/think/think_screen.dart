@@ -2,8 +2,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:one_crore_project/constant/color.dart';
 
+import '../../routing/route_const.dart';
 import '../../widgets/prefetch_image.dart';
 import '../../widgets/traingle_painter.dart';
 
@@ -12,11 +15,13 @@ class ThinkModel {
   final String name;
   final String description;
   String imageUrl;
+  bool showCommingSoon = false;
   ThinkModel(
       {required this.id,
       required this.name,
       required this.description,
-      required this.imageUrl});
+      required this.imageUrl,
+      this.showCommingSoon = false});
 }
 
 class ThinkScreen extends ConsumerStatefulWidget {
@@ -27,23 +32,42 @@ class ThinkScreen extends ConsumerStatefulWidget {
 }
 
 class _ThinkScreenState extends ConsumerState<ThinkScreen> {
-  final storage = FirebaseStorage.instance.ref("brain_storming.png");
+  final brainStorming = FirebaseStorage.instance.ref("brain_storming.png");
+  final life = FirebaseStorage.instance.ref("life.png");
   List<ThinkModel> thinkList = [
     ThinkModel(
       id: 1,
       name: "Brain Storming",
       description: "Discover your hidden potential",
       imageUrl: "",
-    )
+    ),
+    ThinkModel(
+      id: 2,
+      name: "Know Yourself",
+      description: "Thoughts, Feelings, and Actions",
+      imageUrl: "",
+      showCommingSoon: true,
+    ),
   ];
 
   @override
   void initState() {
     super.initState();
-    storage.getDownloadURL().then((value) => {
-          setState(() {
-            thinkList[0].imageUrl = value;
-          })
+    brainStorming.getDownloadURL().then((value) => {
+          if (mounted)
+            {
+              setState(() {
+                thinkList[0].imageUrl = value;
+              })
+            }
+        });
+    life.getDownloadURL().then((value) => {
+          if (mounted)
+            {
+              setState(() {
+                thinkList[1].imageUrl = value;
+              })
+            }
         });
   }
 
@@ -73,12 +97,12 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                 Expanded(
                   child: GridView.builder(
                     restorationId: "think_grid",
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      mainAxisSpacing: 60,
                       mainAxisExtent: 150,
                     ),
                     itemCount: thinkList.length,
@@ -88,7 +112,8 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                         onTap: () {
                           switch (think.id) {
                             case 1:
-
+                              context.push(RouteNames.chatScreen);
+                              break;
                             case 2:
                               break;
                           }
@@ -119,25 +144,22 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       const SizedBox(
-                                        height: 40,
+                                        height: 50,
                                       ),
                                       Text(
                                         think.name,
                                         style: GoogleFonts.roboto(
                                           fontSize: 25,
-                                          color: Colors.black,
+                                          color: primaryBlackColor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                         textAlign: TextAlign.right,
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
                                       ),
                                       Text(
                                         think.description,
                                         style: GoogleFonts.roboto(
                                           fontSize: 16,
-                                          color: Colors.black,
+                                          color: primaryBlackColor,
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -162,18 +184,25 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                                       ),
                                     ),
                                     Container(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
+                                      decoration: BoxDecoration(
+                                          color: think.showCommingSoon
+                                              ? Colors.white
+                                              : primaryColor,
+                                          borderRadius: const BorderRadius.only(
                                               topRight: Radius.circular(6.0),
                                               bottomLeft:
                                                   Radius.circular(6.0))),
                                       width: 120.0,
                                       height: 30.0,
-                                      child: const Center(
+                                      child: Center(
                                         child: Text(
-                                          'Coming Soon',
-                                          style: TextStyle(color: Colors.black),
+                                          think.showCommingSoon
+                                              ? 'Coming Soon'
+                                              : "Live",
+                                          style: TextStyle(
+                                              color: think.showCommingSoon
+                                                  ? primaryBlackColor
+                                                  : Colors.white),
                                         ),
                                       ),
                                     ),

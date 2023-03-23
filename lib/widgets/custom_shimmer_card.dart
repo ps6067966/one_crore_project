@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:h3m_shimmer_card/h3m_shimmer_card.dart';
+import 'package:one_crore_project/constant/color.dart';
+import 'package:one_crore_project/util/utils.dart';
 
 class CustomShimmerCard extends StatefulWidget {
   final double height;
@@ -33,8 +35,9 @@ class _CustomShimmerCardState extends State<CustomShimmerCard> {
           height: widget.height,
           beginAlignment: Alignment.topLeft,
           endAlignment: Alignment.bottomRight,
-          backgroundColor: Colors.black,
-          shimmerColor: Colors.black12,
+          backgroundColor:
+              context.isDarkMode ? primaryBlackColor : Colors.white,
+          shimmerColor: Colors.grey,
         ),
       );
     }

@@ -4,6 +4,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/constant/assets_const.dart';
+import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/constant/global.dart';
 
 import '../../widgets/google_sign_in_button.dart';
@@ -61,7 +62,7 @@ class AuthScreen extends ConsumerWidget {
                             alignment: Alignment.center,
                             height: 35,
                             decoration: BoxDecoration(
-                              color: Colors.black54,
+                              color: primaryBlackColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
