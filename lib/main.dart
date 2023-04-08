@@ -12,6 +12,7 @@ import 'constant/global.dart';
 import 'firebase_options.dart';
 import 'local_storage/prefs.dart';
 import 'routing/app_router.dart';
+import 'services/push_notification.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ Future<void> main() async {
     ]);
   }
   await Prefs.init();
+  PushNotificationService.initialize();
 
   runApp(ProviderScope(
       child: DevicePreview(

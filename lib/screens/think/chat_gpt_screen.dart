@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chatgpt_client/chatgpt_client.dart';
 import 'package:flutter/material.dart';
 
@@ -102,14 +100,14 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                       color: Colors.blue, // Button color
                       child: InkWell(
                         onTap: () async {
-                          var text = "";
-                          final stream = client.sendMessageStream(
-                            textEditingController.text,
-                          );
-                          await for (final textChunk in stream) {
-                            text += textChunk;
-                            log(textChunk);
-                          }
+                          // var text = "";
+                          // final stream = client.sendMessageStream(
+                          //   textEditingController.text,
+                          // );
+                          // await for (final textChunk in stream) {
+                          //   text += textChunk;
+                          //   log(textChunk);
+                          // }
                         },
                         child: const SizedBox(
                           width: 48,

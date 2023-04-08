@@ -52,20 +52,26 @@ class _GoogleOpinionRewardScreenState
     GoogleOpinionReward(amount: "3077", amountThatUserGet: "2000"),
     GoogleOpinionReward(amount: "5000", amountThatUserGet: "3250"),
   ];
+  String purchaseID = "";
 
   @override
   void initState() {
     super.initState();
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         InAppPurchase.instance.purchaseStream;
-    _subscription = purchaseUpdated.listen(
-        (purchaseDetailsList) {
-          _listenToPurchaseUpdated(purchaseDetailsList);
-        },
-        onDone: () {},
-        onError: (error) {
-          // handle error here.
-        });
+    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () async {
+      await ApiServices.addPurchaseDetails(
+        errorMessage: "",
+        productID: purchaseID,
+        purchaseID: purchaseID,
+        userId: userId,
+        transactionDate: DateTime.now().toString(),
+      );
+    }, onError: (error) {
+      // handle error here.
+    });
     getInAppPurchase();
   }
 
@@ -85,6 +91,13 @@ class _GoogleOpinionRewardScreenState
           );
         }
         if (purchaseDetails.pendingCompletePurchase) {
+          await ApiServices.addPurchaseDetails(
+            errorMessage: purchaseDetails.error?.message ?? "",
+            productID: purchaseDetails.productID,
+            purchaseID: purchaseDetails.purchaseID ?? "",
+            userId: userId,
+            transactionDate: purchaseDetails.transactionDate ?? "",
+          );
           await InAppPurchase.instance.completePurchase(purchaseDetails);
         }
       }
@@ -293,6 +306,7 @@ class _GoogleOpinionRewardScreenState
               Expanded(
                 child: FutureBuilder(
                     future: _inAppPurchase.queryProductDetails({
+                      "10_google_opinion_rewards",
                       "25_google_opinion_rewards",
                       "35_google_opinion_rewards",
                       "50_google_opinion_rewards",
@@ -301,11 +315,16 @@ class _GoogleOpinionRewardScreenState
                     }),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return Center(
-                          child: Text("Error: ${snapshot.error}"),
+                        return const Center(
+                          child: CircularProgressIndicator(),
                         );
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (!snapshot.hasData) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
@@ -333,6 +352,7 @@ class _GoogleOpinionRewardScreenState
                                 trailing: const Icon(Icons.shop_2_rounded,
                                     color: Colors.white),
                                 onTap: () {
+                                  purchaseID = item.id;
                                   PurchaseParam purchaseParam = PurchaseParam(
                                       productDetails: ProductDetails(
                                     id: "${item.price.split(".")[0].substring(1)}_google_opinion_rewards",

@@ -12,6 +12,8 @@ import 'package:one_crore_project/screens/reward/reward_screen.dart';
 import 'package:one_crore_project/screens/think/think_screen.dart';
 import 'package:one_crore_project/util/utils.dart';
 
+import '../../services/firebase_messaging.dart';
+
 class MainScreen extends ConsumerStatefulWidget {
   final int? index;
   const MainScreen({this.index, super.key});
@@ -21,7 +23,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int selectedIndex = 0;
+  int selectedIndex = 2;
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   Widget page() {
@@ -48,6 +50,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     if (widget.index != null) {
       selectedIndex = widget.index!;
     }
+    FirebaseMessagingService.handleBackgroudFirebaseMessaging();
   }
 
   @override
