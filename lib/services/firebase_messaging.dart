@@ -3,9 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'push_notification.dart';
 
 class FirebaseMessagingService {
+  static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   static handleBackgroudFirebaseMessaging() {
     // fcm code starts here
-    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
     firebaseMessaging.getToken().then((value) => storeToken(value));
 
@@ -31,7 +31,5 @@ class FirebaseMessagingService {
     });
   }
 
-  static Future<void> storeToken(var devicetoken) async {
-    
-  }
+  static Future<void> storeToken(var devicetoken) async {}
 }

@@ -7,14 +7,6 @@ extension PhoneNumber on String {
   }
 }
 
-extension AbuseMessage on String {
-  bool isAbuseMessage() {
-    return RegExp(
-            'sex|madharchod|madhar|chod|Madhar|Chod|behenchod|bhosdike|madhar chod|Sex|Madharchod|hole|HOLE|Hole|MADHARCHOD|SEX|BEHENCHOD|Behenchod|Behen chod|BEHEN CHOD|behen chod|BHOSDIKE|ass|Ass|ASS|cock|Cock|COCK|MOTHERFUCKER|Mother Fucker|MotherFucker|motherfucker|SisterFucking|sisterfucking|FUCK|fuck|fucking|Asshole|ASSHOLE|asshole|fuckyou|fuck you|Fuck you|FUCK YOU |id|ID|FACEBOOK|facebook|INSTA|insta|instagran|INSTAGRAM')
-        .hasMatch(this);
-  }
-}
-
 extension SocialSite on String {
   bool isSocialSite() {
     return RegExp('@.com|@|.com|.COM|www|WWW|Www').hasMatch(this);

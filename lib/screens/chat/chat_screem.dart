@@ -4,14 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/util/utils.dart';
 import 'package:pod_player_new/pod_player_new.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
-import '../../api/api_service.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen({
@@ -50,6 +47,11 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
         if (mounted) {
           setState(() {});
         }
+      } else {
+        chatRoomCollection.doc(docID).set({
+          "topic_name": "Topic of the day",
+          "image": "https://youtu.be/UNAu-gNSqsM",
+        });
       }
     });
   }
@@ -84,16 +86,16 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
     _chatController.clear();
   }
 
-  onChatPushNotify() async {
-    EasyLoading.show(
-        status: "Connecting with our secure server",
-        maskType: EasyLoadingMaskType.clear);
-    EasyLoading.dismiss();
-    ApiServices.sendChatNotification(deviceToken: '', senderName: ''
-        // senderName: isListener ? widget.userName : widget.listenerName,
-        );
-    // }
-  }
+  // onChatPushNotify() async {
+  //   EasyLoading.show(
+  //       status: "Connecting with our secure server",
+  //       maskType: EasyLoadingMaskType.clear);
+  //   EasyLoading.dismiss();
+  //   ApiServices.sendChatNotification(deviceToken: '', senderName: ''
+  //       // senderName: isListener ? widget.userName : widget.listenerName,
+  //       );
+  //   // }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -381,7 +383,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                         onTap: () {
                           if (_chatController.text.trim().isNotEmpty) {
                             onSendMessage();
-                            onChatPushNotify();
+                            // onChatPushNotify();
                           }
                         },
                         child: const Padding(

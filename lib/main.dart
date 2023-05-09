@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,12 @@ Future<void> main() async {
     log("$e");
   }
 
+  analytics.app.setAutomaticDataCollectionEnabled(true);
+  analytics.setAnalyticsCollectionEnabled(true);
+  analytics.logAppOpen();
+  analytics.setConsent(
+      adStorageConsentGranted: true, analyticsStorageConsentGranted: true);
+
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -40,11 +47,11 @@ Future<void> main() async {
   )));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       builder: (context, child) {
         mediaQuery = MediaQuery.of(context);
@@ -98,3 +105,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+FirebaseAnalytics analytics = FirebaseAnalytics.instance;

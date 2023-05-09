@@ -10,8 +10,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:one_crore_project/api/api_service.dart';
 import 'package:one_crore_project/routing/route_const.dart';
+import 'package:one_crore_project/util/utils.dart';
 import 'package:one_crore_project/widgets/prefetch_image.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../constant/color.dart';
 
 class GoogleOpinionReward {
   final String amount;
@@ -349,8 +352,10 @@ class _GoogleOpinionRewardScreenState
                                     ),
                                   ),
                                 ),
-                                trailing: const Icon(Icons.shop_2_rounded,
-                                    color: Colors.white),
+                                trailing: Icon(Icons.shop_2_rounded,
+                                    color: context.isDarkMode
+                                        ? Colors.white
+                                        : primaryColor),
                                 onTap: () {
                                   purchaseID = item.id;
                                   PurchaseParam purchaseParam = PurchaseParam(
@@ -370,7 +375,7 @@ class _GoogleOpinionRewardScreenState
                               );
                             });
                       }
-                      return const SizedBox();
+                      return const Center(child: CircularProgressIndicator());
                     }),
               ),
             ],

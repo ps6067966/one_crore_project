@@ -115,6 +115,7 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                               context.push(RouteNames.chatScreen);
                               break;
                             case 2:
+                              // context.push(RouteNames.knowYourselfScreen);
                               break;
                           }
                         },

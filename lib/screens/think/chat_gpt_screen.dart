@@ -1,5 +1,14 @@
-import 'package:chatgpt_client/chatgpt_client.dart';
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+
+import '../../constant/global.dart';
+import '../../services/chat_gpt_src.dart';
+import '../../services/models/completion_request.dart';
+import '../../services/models/message.dart';
+import '../../services/models/role.dart';
+import '../../services/models/stream_completion_response.dart';
 
 class QuestionAnswer {
   final String question;
@@ -21,8 +30,6 @@ class QuestionAnswer {
   }
 }
 
-const apiKey = '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';
-
 class ChatGptScreen extends StatefulWidget {
   const ChatGptScreen({super.key});
 
@@ -32,15 +39,16 @@ class ChatGptScreen extends StatefulWidget {
 
 class _ChatGptScreenState extends State<ChatGptScreen> {
   String? answer;
+  final chatGpt = ChatGpt(apiKey: apiKey);
   bool loading = false;
-  ChatGPTClient client = ChatGPTClient(
-      apiKey: "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");
   final testPrompt =
       'Which Disney character famously leaves a glass slipper behind at a royal ball?';
 
   final List<QuestionAnswer> questionAnswers = [];
 
   late TextEditingController textEditingController;
+
+  StreamSubscription<StreamCompletionResponse>? streamSubscription;
 
   @override
   void initState() {
@@ -51,6 +59,7 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
   @override
   void dispose() {
     textEditingController.dispose();
+    streamSubscription?.cancel();
     super.dispose();
   }
 
@@ -91,7 +100,7 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                     child: TextFormField(
                       controller: textEditingController,
                       decoration: const InputDecoration(hintText: 'Type in...'),
-                      onFieldSubmitted: (value) {},
+                      onFieldSubmitted: (_) => _sendMessage(),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -99,16 +108,7 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
                     child: Material(
                       color: Colors.blue, // Button color
                       child: InkWell(
-                        onTap: () async {
-                          // var text = "";
-                          // final stream = client.sendMessageStream(
-                          //   textEditingController.text,
-                          // );
-                          // await for (final textChunk in stream) {
-                          //   text += textChunk;
-                          //   log(textChunk);
-                          // }
-                        },
+                        onTap: _sendMessage,
                         child: const SizedBox(
                           width: 48,
                           height: 48,
@@ -127,5 +127,52 @@ class _ChatGptScreenState extends State<ChatGptScreen> {
         ),
       ),
     );
+  }
+
+  _sendMessage() async {
+    final question = textEditingController.text;
+    setState(() {
+      textEditingController.clear();
+      loading = true;
+      questionAnswers.add(
+        QuestionAnswer(
+          question: question,
+          answer: StringBuffer(),
+        ),
+      );
+    });
+    final testRequest = CompletionRequest(
+      stream: true,
+      maxTokens: 4000,
+      messages: [Message(role: Role.user.name, content: question)],
+    );
+    await _streamResponse(testRequest);
+    setState(() => loading = false);
+  }
+
+  _streamResponse(CompletionRequest request) async {
+    streamSubscription?.cancel();
+    try {
+      final stream = await chatGpt.createChatCompletionStream(request);
+      streamSubscription = stream?.listen(
+        (event) => setState(
+          () {
+            if (event.streamMessageEnd) {
+              streamSubscription?.cancel();
+            } else {
+              return questionAnswers.last.answer.write(
+                event.choices?.first.delta?.content,
+              );
+            }
+          },
+        ),
+      );
+    } catch (error) {
+      log("Error occurred: $error");
+      setState(() {
+        loading = false;
+        questionAnswers.last.answer.write("Error");
+      });
+    }
   }
 }
