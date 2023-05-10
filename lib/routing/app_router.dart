@@ -14,13 +14,14 @@ import '../analytics/analytics.dart';
 import '../screens/chat/chat_screem.dart';
 import '../screens/home/google_opinion_reward/add_upi_account.dart';
 import '../screens/reward/github_education_pack/github_education_pack_screen.dart';
-import '../screens/think/chat_gpt_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: FirebaseAuth.instance.currentUser == null
       ? RouteNames.authScreen
       : RouteNames.mainScreen,
-  observers: [FirebaseAnalyticsObserver(analytics: analytics),],
+  observers: [
+    FirebaseAnalyticsObserver(analytics: analytics),
+  ],
   routes: [
     GoRoute(
       path: RouteNames.authScreen,
@@ -58,12 +59,6 @@ final GoRouter router = GoRouter(
       path: RouteNames.githubEducationPackScreen,
       builder: (context, state) {
         return const GithubEducationPackScreen();
-      },
-    ),
-    GoRoute(
-      path: RouteNames.chatGptScreen,
-      builder: (context, state) {
-        return const ChatGptScreen();
       },
     ),
     GoRoute(
