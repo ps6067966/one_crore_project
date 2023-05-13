@@ -58,7 +58,6 @@ class MyApp extends ConsumerWidget {
         return child!;
       },
       routerConfig: router,
-      useInheritedMediaQuery: true,
       title: '1 CR',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,

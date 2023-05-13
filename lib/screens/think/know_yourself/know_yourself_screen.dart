@@ -14,9 +14,9 @@ class _KnowYourselfState extends State<KnowYourself> {
       appBar: AppBar(
         title: const Text("Know Yourself"),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: Column(
-          children: const [
+          children: [
             Text("Know Yourself"),
           ],
         ),
