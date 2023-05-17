@@ -1,11 +1,9 @@
-import 'package:awesome_snackbar_content_new/awesome_snackbar_content.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:one_crore_project/widgets/prefetch_image.dart';
 
 import '../../routing/route_const.dart';
 import '../../util/check_update.dart';
@@ -33,10 +31,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/b/b1/Google_Opinion_Rewards_app_logo.png"),
     Services(
-        id: 2,
-        name: "Chat GPT - AI Chatbot",
-        imageUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg"),
+      id: 2,
+      name: "AI Chat Bot\n2.0",
+      imageUrl:
+          "https://images.ctfassets.net/foc8yxpzaiuk/WFEZbr6obtbPRG7msTVN6/3151320e157d9cfc3b282a1d6c19e743/11._Guide_to_Understanding_AI_Chatbots.jpg",
+    ),
   ];
 
   @override
@@ -87,21 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   .push(RouteNames.googleOpinionRewardScreen);
                               break;
                             case 2:
-                              final snackBar = SnackBar(
-                                elevation: 2,
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.transparent,
-                                content: AwesomeSnackbarContent(
-                                  title: "Chat GPT is not available yet",
-                                  message: "",
-                                  inMaterialBanner: true,
-                                  contentType: ContentType.failure,
-                                ),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              context.push(RouteNames.chatGptScreen);
 
                               break;
                           }
@@ -112,6 +97,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Card(
                               elevation: 5,
                               child: Container(
+                                width: double.infinity,
                                 decoration: const BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
@@ -139,12 +125,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             Positioned.fill(
                               top: -30,
+                              left: 10,
                               child: Align(
                                 alignment: Alignment.topCenter,
-                                child: PrefetchImage(
-                                    imageUrl: service.imageUrl,
-                                    height: 70,
-                                    width: 70),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      Image.network(service.imageUrl).image,
+                                ),
                               ),
                             )
                           ],
