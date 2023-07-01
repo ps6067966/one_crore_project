@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/util/utils.dart';
-import 'package:pod_player_new/pod_player_new.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ChatRoomScreen extends StatefulWidget {
