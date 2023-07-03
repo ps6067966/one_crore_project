@@ -45,12 +45,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ),
   ];
 
-  void _createRewardedAd() {
-    RewardedAd.load(
+  Future<void> _createRewardedAd() async {
+    await RewardedAd.load(
         adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-3940256099942544/5224354917'
+            ? 'ca-app-pub-5015092669331169/2820712567'
             : 'ca-app-pub-3940256099942544/1712485313',
-        request: const AdRequest(keywords: ["google", "opinion", "reward"]),
+        request: const AdRequest(keywords: [
+          "google",
+          "opinion",
+          "reward",
+          "AI",
+          "Artificial Intelligence"
+        ]),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (RewardedAd ad) {
             log('$ad loaded.');
@@ -68,9 +74,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ));
   }
 
-  void _showRewardedAd() {
+  Future<void> _showRewardedAd() async {
     if (_rewardedAd == null) {
-      
+      await _createRewardedAd();
+    }
+    if (_rewardedAd == null) {
       return;
     }
     _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
@@ -146,6 +154,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   .push(RouteNames.googleOpinionRewardScreen);
                               break;
                             case 2:
+                              _showRewardedAd();
                               context.push(RouteNames.chatGptScreen);
 
                               break;

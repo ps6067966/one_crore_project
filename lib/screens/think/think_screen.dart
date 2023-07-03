@@ -1,9 +1,13 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:one_crore_project/constant/color.dart';
 
 import '../../routing/route_const.dart';
@@ -34,6 +38,9 @@ class ThinkScreen extends ConsumerStatefulWidget {
 class _ThinkScreenState extends ConsumerState<ThinkScreen> {
   final brainStorming = FirebaseStorage.instance.ref("brain_storming.png");
   final life = FirebaseStorage.instance.ref("life.png");
+  RewardedAd? _rewardedAd;
+  int _numRewardedLoadAttempts = 0;
+  int maxFailedLoadAttempts = 3;
   List<ThinkModel> thinkList = [
     ThinkModel(
       id: 1,
@@ -49,6 +56,65 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
       showCommingSoon: true,
     ),
   ];
+
+  Future<void> _createRewardedAd() async {
+    await RewardedAd.load(
+        adUnitId: Platform.isAndroid
+            ? 'ca-app-pub-5015092669331169/2820712567'
+            : 'ca-app-pub-3940256099942544/1712485313',
+        request: const AdRequest(keywords: [
+          "google",
+          "opinion",
+          "reward",
+          "AI",
+          "Artificial Intelligence"
+        ]),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+          onAdLoaded: (RewardedAd ad) {
+            log('$ad loaded.');
+            _rewardedAd = ad;
+            _numRewardedLoadAttempts = 0;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            log('RewardedAd failed to load: $error');
+            _rewardedAd = null;
+            _numRewardedLoadAttempts += 1;
+            if (_numRewardedLoadAttempts < maxFailedLoadAttempts) {
+              _createRewardedAd();
+            }
+          },
+        ));
+  }
+
+  Future<void> _showRewardedAd() async {
+    if (_rewardedAd == null) {
+      await _createRewardedAd();
+    }
+    if (_rewardedAd == null) {
+      return;
+    }
+    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) =>
+          log('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        log('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createRewardedAd();
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        log('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createRewardedAd();
+      },
+    );
+
+    _rewardedAd!.setImmersiveMode(true);
+    _rewardedAd!.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+      log('$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
+    });
+    _rewardedAd = null;
+  }
 
   @override
   void initState() {
@@ -69,6 +135,7 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
               })
             }
         });
+    _createRewardedAd();
   }
 
   // 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
@@ -110,6 +177,7 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                       final think = thinkList[index];
                       return InkWell(
                         onTap: () {
+                          _showRewardedAd();
                           switch (think.id) {
                             case 1:
                               context.push(RouteNames.chatScreen);
