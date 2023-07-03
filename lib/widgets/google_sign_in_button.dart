@@ -47,6 +47,7 @@ class GoogleSignButton extends ConsumerWidget {
               fullName: googleUser.displayName ?? "",
               photoUrl: googleUser.photoUrl ?? "",
               mobileNumber: "",
+              
             );
           } catch (e) {
             user = await UsersRepository.getUserByEmail(googleUser.email);

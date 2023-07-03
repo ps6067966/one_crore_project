@@ -78,6 +78,7 @@ dependencies:
   bard_api: ^1.0.0
 
   jumping_dot: ^0.0.6
+  google_mobile_ads: ^3.0.0
 
 dev_dependencies:
   flutter_test:
