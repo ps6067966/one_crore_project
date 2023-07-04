@@ -44,6 +44,7 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
         "url": _videoUrlcontroller.text,
         "type": selectedCategory,
         "lang": selectedLanguage,
+        "timestamp": DateTime.now().toIso8601String(),
       });
       _videoUrlcontroller.clear();
     } catch (e) {
