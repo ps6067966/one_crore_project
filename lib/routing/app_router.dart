@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:one_crore_project/routing/route_const.dart';
 import 'package:one_crore_project/screens/auth/auth_screen.dart';
+import 'package:one_crore_project/screens/feed/add_feed_screen.dart';
 import 'package:one_crore_project/screens/home/google_opinion_reward/google_opinion_reward.dart';
 import 'package:one_crore_project/screens/home/google_opinion_reward/opinion_reward_transaction.dart';
 import 'package:one_crore_project/screens/main/main_screen.dart';
@@ -97,6 +98,12 @@ final GoRouter router = GoRouter(
       path: RouteNames.knowYourselfScreen,
       builder: (context, state) {
         return const KnowYourself();
+      },
+    ),
+    GoRoute(
+      path: RouteNames.addFeedScreen,
+      builder: (context, state) {
+        return const AddFeedScreen();
       },
     ),
   ],

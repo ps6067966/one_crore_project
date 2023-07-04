@@ -91,4 +91,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation("com.android.billingclient:billing:5.0.0")
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
 }

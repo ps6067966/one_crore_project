@@ -19,4 +19,5 @@ abstract class RouteNames {
   static const chatGptScreen = "/chatGpt";
   static const chatScreen = "/chatScreen";
   static const knowYourselfScreen = "/know-yourself";
+  static const addFeedScreen = "/addFeed";
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/constant/color.dart';
+import 'package:one_crore_project/routing/route_const.dart';
 import 'package:one_crore_project/screens/feed/ai_videos.dart';
 import 'package:one_crore_project/screens/feed/coding_videos.dart';
 import 'package:one_crore_project/screens/feed/educational_videos.dart';
@@ -28,7 +30,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     return Scaffold(
       backgroundColor: context.isDarkMode ? null : Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.push(RouteNames.addFeedScreen);
+        },
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
@@ -67,7 +71,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                             _toggleSelection(0);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: selectedIndex == 0
@@ -100,7 +104,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                             _toggleSelection(1);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: selectedIndex == 1
@@ -133,7 +137,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                             _toggleSelection(2);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: selectedIndex == 2

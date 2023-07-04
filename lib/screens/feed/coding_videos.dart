@@ -32,10 +32,11 @@ class _CodingVideosState extends ConsumerState<CodingVideos> {
             itemBuilder: (context, index) {
               final video = data?[index];
               return Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 14.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: PodPlayerView(
+                    key: ValueKey(video?.data()["id"]),
                     videoUrl: video?.data()["url"],
                   ),
                 ),
