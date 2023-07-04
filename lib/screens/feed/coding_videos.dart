@@ -1,24 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:one_crore_project/widgets/pod_players.dart';
 
-final videoCollection = FirebaseFirestore.instance.collection("videos");
+import '../../widgets/pod_players.dart';
+import 'educational_videos.dart';
 
-class EducationVideos extends ConsumerStatefulWidget {
-  const EducationVideos({super.key});
+class CodingVideos extends ConsumerStatefulWidget {
+  const CodingVideos({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _EducationVideosState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CodingVideosState();
 }
 
-class _EducationVideosState extends ConsumerState<EducationVideos> {
+class _CodingVideosState extends ConsumerState<CodingVideos> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: videoCollection
-            .where("type", isEqualTo: "Educational")
+            .where("type", isEqualTo: "Coding")
             .orderBy("id", descending: true)
             .snapshots(),
         builder: (context, snapshot) {

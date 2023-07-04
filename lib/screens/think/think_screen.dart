@@ -153,8 +153,8 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
               children: [
                 Text(
                   "Think",
-                  style: GoogleFonts.roboto(
-                    fontSize: 30,
+                  style: GoogleFonts.robotoFlex(
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -217,7 +217,7 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                                       ),
                                       Text(
                                         think.name,
-                                        style: GoogleFonts.roboto(
+                                        style: GoogleFonts.robotoFlex(
                                           fontSize: 25,
                                           color: primaryBlackColor,
                                           fontWeight: FontWeight.bold,
@@ -226,7 +226,7 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                                       ),
                                       Text(
                                         think.description,
-                                        style: GoogleFonts.roboto(
+                                        style: GoogleFonts.robotoFlex(
                                           fontSize: 16,
                                           color: primaryBlackColor,
                                         ),

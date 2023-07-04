@@ -250,7 +250,7 @@ class _GoogleOpinionRewardScreenState
               Text(
                 "Notice: This service can be used to convert your Google Play Balance to your UPI ID. It usually takes 1-2 days to process your request.",
                 textAlign: TextAlign.start,
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.robotoFlex(
                   fontSize: 16,
                 ),
               ),

@@ -50,8 +50,8 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
               children: [
                 Text(
                   "Rewards",
-                  style: GoogleFonts.roboto(
-                    fontSize: 30,
+                  style: GoogleFonts.robotoFlex(
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -102,7 +102,7 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                                       ),
                                       Text(
                                         reward.name,
-                                        style: GoogleFonts.roboto(
+                                        style: GoogleFonts.robotoFlex(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),

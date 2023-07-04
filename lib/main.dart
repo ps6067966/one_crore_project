@@ -75,7 +75,6 @@ class MyApp extends ConsumerWidget {
           ),
         ),
         useMaterial3: true,
-        typography: Typography.material2021(),
         listTileTheme: const ListTileThemeData(
           textColor: Colors.white,
           style: ListTileStyle.list,
@@ -95,7 +94,6 @@ class MyApp extends ConsumerWidget {
           ),
         ),
         useMaterial3: true,
-        typography: Typography.material2021(),
         listTileTheme: const ListTileThemeData(
           textColor: primaryBlackColor,
           style: ListTileStyle.list,

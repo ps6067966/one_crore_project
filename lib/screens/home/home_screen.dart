@@ -124,8 +124,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               children: [
                 Text(
                   "Services",
-                  style: GoogleFonts.roboto(
-                    fontSize: 30,
+                  style: GoogleFonts.robotoFlex(
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -180,7 +180,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                       Text(
                                         service.name,
-                                        style: GoogleFonts.roboto(
+                                        style: GoogleFonts.robotoFlex(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -198,8 +198,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 alignment: Alignment.topCenter,
                                 child: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: ExtendedAssetImageProvider(
-                                      service.imageUrl,),
+                                  backgroundImage: ExtendedNetworkImageProvider(
+                                    service.imageUrl,
+                                    cache: true,
+                                  ),
                                 ),
                               ),
                             )

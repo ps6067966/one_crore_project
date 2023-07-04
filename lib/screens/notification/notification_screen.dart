@@ -27,7 +27,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
               children: [
                 Text(
                   "Notifications",
-                  style: GoogleFonts.roboto(
+                  style: GoogleFonts.robotoFlex(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
