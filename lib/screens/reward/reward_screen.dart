@@ -79,7 +79,8 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                                   .push(RouteNames.githubEducationPackScreen);
                               break;
                             case 2:
-                              LaunchUrl.launch("https://singlelogin.me");
+                              LaunchUrl.launch(
+                                  "https://lib-x4xkmg3vnptikfooshgpe3tb.1lib.cz/");
                               break;
                           }
                         },

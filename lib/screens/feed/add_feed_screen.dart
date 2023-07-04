@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/screens/feed/educational_videos.dart';
 import 'package:one_crore_project/widgets/pod_players.dart';
 import 'package:one_crore_project/widgets/progress_container_view.dart';
@@ -64,6 +65,7 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         toolbarHeight: 0,
       ),
@@ -90,7 +92,10 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                             shape: BoxShape.circle,
                           ),
                           child: const Center(
-                            child: Icon(Icons.arrow_back_ios_new),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 2.0),
+                              child: Icon(Icons.arrow_back_ios_new),
+                            ),
                           ),
                         ),
                       ),
@@ -109,8 +114,17 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                   const SizedBox(
                     height: 16,
                   ),
+                  const Text(
+                    "Hii, Guys! Share the video with the world that you feel/think worth sharing, Just paste the video url of Youtube.",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
                   Card(
                     color: Colors.white,
+                    surfaceTintColor: Colors.white,
+                    shadowColor: primaryColor,
                     elevation: 5,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
