@@ -58,7 +58,7 @@ class MyApp extends ConsumerWidget {
         return child!;
       },
       routerConfig: router,
-      title: 'I-Labs',
+      title: 'I Labs',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(

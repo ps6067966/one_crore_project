@@ -116,7 +116,7 @@ class ChatGptScreenState extends State<ChatGptScreen>
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage: Image.network(
+              backgroundImage: ExtendedImage.network(
                       "https://images.ctfassets.net/foc8yxpzaiuk/WFEZbr6obtbPRG7msTVN6/3151320e157d9cfc3b282a1d6c19e743/11._Guide_to_Understanding_AI_Chatbots.jpg")
                   .image,
             ),

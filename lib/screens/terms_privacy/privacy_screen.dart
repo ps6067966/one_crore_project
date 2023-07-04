@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -21,7 +20,7 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
     </head>
     <body>
     <strong>Privacy Policy</strong> <p>
-                  Pratap Singh built the I-Labs app as
+                  Pratap Singh built the I Labs app as
                   a Commercial app. This SERVICE is provided by
                   Pratap Singh  and is intended for use as
                   is.
@@ -38,7 +37,7 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
                 </p> <p>
                   The terms used in this Privacy Policy have the same meanings
                   as in our Terms and Conditions, which are accessible at
-                  I-Labs unless otherwise defined in this Privacy Policy.
+                  I Labs unless otherwise defined in this Privacy Policy.
                 </p> <p><strong>Information Collection and Use</strong></p> <p>
                   For a better experience, while using our Service, I
                   may require you to provide us with certain personally

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -10,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../routing/route_const.dart';
-import '../../util/check_update.dart';
 
 class Services {
   final int id;
@@ -107,7 +107,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    UpdateChecker.checkForUpdate();
     _createRewardedAd();
   }
 
@@ -199,8 +198,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 alignment: Alignment.topCenter,
                                 child: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage:
-                                      Image.network(service.imageUrl).image,
+                                  backgroundImage: ExtendedAssetImageProvider(
+                                      service.imageUrl,),
                                 ),
                               ),
                             )

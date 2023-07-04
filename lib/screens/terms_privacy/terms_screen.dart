@@ -40,7 +40,7 @@ class _TermsAndConditionScreenState
                   charge you for the app or its services without making it very
                   clear to you exactly what you’re paying for.
                 </p> <p>
-                  The I-Labs app stores and processes personal data that
+                  The I Labs app stores and processes personal data that
                   you have provided to us, to provide my
                   Service. It’s your responsibility to keep your phone and
                   access to the app secure. We therefore recommend that you do
@@ -49,7 +49,7 @@ class _TermsAndConditionScreenState
                   official operating system of your device. It could make your
                   phone vulnerable to malware/viruses/malicious programs,
                   compromise your phone’s security features and it could mean
-                  that the I-Labs app won’t work properly or at all.
+                  that the I Labs app won’t work properly or at all.
                 </p> <div><p>
                     The app does use third-party services that declare their
                     Terms and Conditions.

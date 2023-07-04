@@ -7,6 +7,7 @@ import 'package:one_crore_project/constant/assets_const.dart';
 import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/constant/global.dart';
 
+import '../../util/check_update.dart';
 import '../../widgets/google_sign_in_button.dart';
 
 class AuthScreen extends ConsumerWidget {
@@ -20,6 +21,7 @@ class AuthScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    UpdateChecker.checkForUpdate();
     final size = mediaQuery?.size ?? MediaQuery.of(context).size;
     return Semantics(
       attributedHint: AttributedString("Auth Screen"),
