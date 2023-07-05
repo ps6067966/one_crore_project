@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:one_crore_project/model/post_model/user_post_model.dart';
-import 'package:one_crore_project/repository/user_repository.dart';
 import 'package:one_crore_project/widgets/prefetch_image.dart';
 
 import '../routing/route_const.dart';
@@ -39,23 +37,7 @@ class GoogleSignButton extends ConsumerWidget {
         UserCredential userCredential =
             await auth.signInWithCredential(credential);
         if (userCredential.user != null) {
-          UserModel? user;
-          try {
-            user = await UsersRepository.createUser(
-              userName: googleUser.email.split("@")[0],
-              email: googleUser.email,
-              fullName: googleUser.displayName ?? "",
-              photoUrl: googleUser.photoUrl ?? "",
-              mobileNumber: "",
-              
-            );
-          } catch (e) {
-            user = await UsersRepository.getUserByEmail(googleUser.email);
-          } finally {
-            if (user?.email != null && user!.email!.isNotEmpty) {
-              GoRouter.of(context).push(RouteNames.mainScreen);
-            }
-          }
+          GoRouter.of(context).push(RouteNames.mainScreen);
         }
       }
     }
@@ -80,8 +62,8 @@ class GoogleSignButton extends ConsumerWidget {
                   child: snapshot.connectionState == ConnectionState.active
                       ? const Center(
                           child: SizedBox(
-                              width: 30,
-                              height: 30,
+                              width: 25,
+                              height: 25,
                               child: Center(
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,

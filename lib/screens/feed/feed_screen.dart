@@ -28,12 +28,18 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
       backgroundColor: context.isDarkMode ? null : Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.push(RouteNames.addFeedScreen);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: SafeArea(
         child: Padding(

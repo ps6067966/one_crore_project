@@ -6,8 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/screens/feed/educational_videos.dart';
+import 'package:one_crore_project/util/utils.dart';
 import 'package:one_crore_project/widgets/pod_players.dart';
 import 'package:one_crore_project/widgets/progress_container_view.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class AddFeedScreen extends ConsumerStatefulWidget {
   const AddFeedScreen({super.key});
@@ -23,9 +26,9 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
     "Coding",
   ];
   List<String> language = ["Hindi", "English"];
+  String selectedLanguage = "English";
   final TextEditingController _videoUrlcontroller = TextEditingController();
   String selectedCategory = "Educational";
-  String selectedLanguage = "English";
   bool isProgressRunning = false;
 
   addVideo() async {
@@ -47,6 +50,18 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
         "timestamp": DateTime.now().toIso8601String(),
       });
       _videoUrlcontroller.clear();
+      if (mounted) {
+        showTopSnackBar(
+          Overlay.of(context),
+          const CustomSnackBar.success(
+            message: "Feed Added Successfully",
+            messagePadding:
+                EdgeInsets.only(left: 75, right: 8, top: 12, bottom: 12),
+          ),
+        );
+
+        GoRouter.of(context).pop();
+      }
     } catch (e) {
       log("$e");
     }
@@ -66,7 +81,7 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: context.isDarkMode ? null : Colors.grey[200],
       appBar: AppBar(
         toolbarHeight: 0,
       ),
@@ -95,7 +110,10 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                           child: const Center(
                             child: Padding(
                               padding: EdgeInsets.only(right: 2.0),
-                              child: Icon(Icons.arrow_back_ios_new),
+                              child: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: primaryBlackColor,
+                              ),
                             ),
                           ),
                         ),
@@ -123,9 +141,11 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                     height: 16,
                   ),
                   Card(
-                    color: Colors.white,
+                    color:
+                        context.isDarkMode ? primaryBlackColor : Colors.white,
                     surfaceTintColor: Colors.white,
-                    shadowColor: primaryColor,
+                    shadowColor:
+                        context.isDarkMode ? Colors.white : primaryColor,
                     elevation: 5,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -137,8 +157,8 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                             height: 8,
                           ),
                           const Text(
-                            "Video URL ->",
-                            style: TextStyle(fontSize: 20),
+                            "Video URL -->",
+                            style: TextStyle(fontSize: 18),
                           ),
                           const SizedBox(
                             height: 8,
@@ -157,8 +177,8 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                             height: 16,
                           ),
                           const Text(
-                            "Video Category ->",
-                            style: TextStyle(fontSize: 20),
+                            "Video Category -->",
+                            style: TextStyle(fontSize: 18),
                           ),
                           const SizedBox(
                             height: 8,
@@ -187,8 +207,8 @@ class _AddFeedScreenState extends ConsumerState<AddFeedScreen> {
                             height: 16,
                           ),
                           const Text(
-                            "Video Language ->",
-                            style: TextStyle(fontSize: 20),
+                            "Video Language -->",
+                            style: TextStyle(fontSize: 18),
                           ),
                           const SizedBox(
                             height: 8,

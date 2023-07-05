@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../widgets/custom_circular_indicator.dart';
 import '../../widgets/pod_players.dart';
 import 'educational_videos.dart';
 
@@ -8,8 +9,7 @@ class AiVideos extends ConsumerStatefulWidget {
   const AiVideos({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AiVideosState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AiVideosState();
 }
 
 class _AiVideosState extends ConsumerState<AiVideos> {
@@ -22,9 +22,7 @@ class _AiVideosState extends ConsumerState<AiVideos> {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const CustomCircularIndicator();
           }
           final data = snapshot.data?.docs;
           return ListView.builder(

@@ -1,89 +1,45 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:one_crore_project/model/get_model/transaction_model.dart';
-import 'package:one_crore_project/model/post_model/user_post_model.dart';
 
 import '../model/get_model/bank_account_model.dart';
 
+final bankCollection = FirebaseFirestore.instance.collection('bank');
+final transactionCollection =
+    FirebaseFirestore.instance.collection('transaction');
+
 class ApiServices {
-  static Dio dio = Dio();
   static Future<bool> addUpiAccountDetails({
     required String fullName,
     required String upiId,
     required String paytmNumber,
-    required int userId,
   }) async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      final response = await dio.post('https://onecrore.deno.dev/banks', data: {
-        "email": auth.currentUser?.email,
+      await bankCollection.doc().set({
         "full_name": fullName,
         "paytm_number": paytmNumber,
         "upi_id": upiId,
-        "user_id": userId,
-      });
-      if (response.statusCode == 200) {
-        return true;
-      }
+        "email": auth.currentUser?.email ?? "",
+      }, SetOptions(merge: true));
+      return true;
     } catch (e) {
       log("$e");
     }
     return false;
   }
 
-  // static Future<bool> editAccountDetails({
-  //   required String fullName,
-  //   required String upiId,
-  //   required String paytmNumber,
-  //   required int userId,
-  // }) async {
-  //   try {
-  //     final FirebaseAuth auth = FirebaseAuth.instance;
-  //     final response =
-  //         await dio.put('https://onecrore.deno.dev/banks/2', data: {
-  //       "email": auth.currentUser?.email,
-  //       "full_name": fullName,
-  //       "paytm_number": paytmNumber,
-  //       "upi_id": upiId,
-  //       "user_id": userId,
-  //     });
-  //     if (response.statusCode == 200) {
-  //       return true;
-  //     }
-  //   } catch (e) {
-  //     log("$e");
-  //   }
-  //   return false;
-  // }
-
-  static Future<UserModel?> getUserDetails() async {
-    try {
-      final FirebaseAuth auth = FirebaseAuth.instance;
-      final response = await dio.get(
-        'https://onecrore.deno.dev/users/${auth.currentUser?.email}',
-      );
-      if (response.statusCode == 200) {
-        return UserModel.fromJson(response.data);
-      }
-    } catch (e) {
-      log("$e");
-    }
-    return null;
-  }
-
   static Future<BankAccountDetailsModel?> getBankAccountDetails() async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      final response = await dio.get(
-        'https://onecrore.deno.dev/banks/${auth.currentUser?.email}',
-      );
-      if (response.statusCode == 200) {
-        return BankAccountDetailsModel.fromJson(response.data);
-      }
+      final data = await bankCollection
+          .where('email', isEqualTo: auth.currentUser?.email)
+          .get();
+      return BankAccountDetailsModel.fromJson(data.docs.first.data());
     } catch (e) {
       log("$e");
     }
@@ -94,21 +50,23 @@ class ApiServices {
     required String fullName,
     required String upiId,
     required String paytmNumber,
-    required int userId,
   }) async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      final response =
-          await dio.put('https://onecrore.deno.dev/banks/2', data: {
-        "email": auth.currentUser?.email,
-        "full_name": fullName,
-        "paytm_number": paytmNumber,
-        "upi_id": upiId,
-        "user_id": userId,
+      bankCollection
+          .where('email', isEqualTo: auth.currentUser?.email)
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          element.reference.update({
+            "full_name": fullName,
+            "paytm_number": paytmNumber,
+            "upi_id": upiId,
+            "email": auth.currentUser?.email ?? ""
+          });
+        }
       });
-      if (response.statusCode == 200) {
-        return true;
-      }
+      return true;
     } catch (e) {
       log("$e");
     }
@@ -119,23 +77,18 @@ class ApiServices {
     required String errorMessage,
     required String productID,
     required String purchaseID,
-    required int userId,
     required String transactionDate,
   }) async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      final response =
-          await dio.put('https://onecrore.deno.dev/transactions', data: {
-        "email_id": auth.currentUser?.email,
+      await transactionCollection.doc().set({
+        "email": auth.currentUser?.email,
         "error_message": errorMessage,
         "product_id": productID,
         "purchase_id": purchaseID,
-        "user_id": userId,
         "transaction_date": transactionDate,
-      });
-      if (response.statusCode == 200) {
-        return true;
-      }
+      }, SetOptions(merge: true));
+      return true;
     } catch (e) {
       log("$e");
     }
@@ -145,13 +98,11 @@ class ApiServices {
   static Future<List<TransactionModel>> getTransactions() async {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      final response = await dio.get(
-        'https://onecrore.deno.dev/transactions/${auth.currentUser?.email}',
-      );
-      if (response.statusCode == 200) {
-        return List<TransactionModel>.from(
-            response.data.map((x) => TransactionModel.fromJson(x)));
-      }
+      final data = await transactionCollection
+          .where('email', isEqualTo: auth.currentUser?.email)
+          .get();
+      return List<TransactionModel>.from(
+          data.docs.map((x) => TransactionModel.fromJson(x.data())));
     } catch (e) {
       log("$e");
     }

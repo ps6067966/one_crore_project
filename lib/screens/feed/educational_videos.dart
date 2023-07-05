@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:one_crore_project/widgets/pod_players.dart';
 
+import '../../widgets/custom_circular_indicator.dart';
+
 final videoCollection = FirebaseFirestore.instance.collection("videos");
 
 class EducationVideos extends ConsumerStatefulWidget {
@@ -23,9 +25,7 @@ class _EducationVideosState extends ConsumerState<EducationVideos> {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const CustomCircularIndicator();
           }
           final data = snapshot.data?.docs;
           return ListView.builder(

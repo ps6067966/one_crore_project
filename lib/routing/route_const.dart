@@ -20,4 +20,6 @@ abstract class RouteNames {
   static const chatScreen = "/chatScreen";
   static const knowYourselfScreen = "/know-yourself";
   static const addFeedScreen = "/addFeed";
+  static const wisdomScreen = "/wisdom";
+  static const addWisdomScreen = "/addWisdom";
 }

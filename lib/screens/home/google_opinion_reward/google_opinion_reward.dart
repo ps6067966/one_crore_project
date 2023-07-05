@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,12 +8,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:one_crore_project/api/api_service.dart';
+import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/routing/route_const.dart';
 import 'package:one_crore_project/util/utils.dart';
 import 'package:one_crore_project/widgets/prefetch_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../constant/color.dart';
+import '../../../widgets/custom_circular_indicator.dart';
 
 class GoogleOpinionReward {
   final String amount;
@@ -38,7 +38,6 @@ class _GoogleOpinionRewardScreenState
     extends ConsumerState<GoogleOpinionRewardScreen> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  int userId = 0;
   List<GoogleOpinionReward> opinionRewards = [
     GoogleOpinionReward(amount: "50", amountThatUserGet: "32.5"),
     GoogleOpinionReward(amount: "95", amountThatUserGet: "61.75"),
@@ -69,7 +68,6 @@ class _GoogleOpinionRewardScreenState
         errorMessage: "",
         productID: purchaseID,
         purchaseID: purchaseID,
-        userId: userId,
         transactionDate: DateTime.now().toString(),
       );
     }, onError: (error) {
@@ -89,7 +87,6 @@ class _GoogleOpinionRewardScreenState
             errorMessage: purchaseDetails.error?.message ?? "",
             productID: purchaseDetails.productID,
             purchaseID: purchaseDetails.purchaseID ?? "",
-            userId: userId,
             transactionDate: purchaseDetails.transactionDate ?? "",
           );
         }
@@ -98,7 +95,6 @@ class _GoogleOpinionRewardScreenState
             errorMessage: purchaseDetails.error?.message ?? "",
             productID: purchaseDetails.productID,
             purchaseID: purchaseDetails.purchaseID ?? "",
-            userId: userId,
             transactionDate: purchaseDetails.transactionDate ?? "",
           );
           await InAppPurchase.instance.completePurchase(purchaseDetails);
@@ -108,8 +104,7 @@ class _GoogleOpinionRewardScreenState
   }
 
   getInAppPurchase() async {
-    log("isAvailable: ${await _inAppPurchase.isAvailable()}");
-    userId = (await ApiServices.getUserDetails())?.id ?? 0;
+    await _inAppPurchase.isAvailable();
     if (mounted) {
       setState(() {});
     }
@@ -272,18 +267,37 @@ class _GoogleOpinionRewardScreenState
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Text("Add UPI Account");
+                              return const Text(
+                                "Add UPI Account",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                ),
+                              );
                             }
                             if (snapshot.hasError) {
-                              return const Text("Add UPI Account");
+                              return const Text(
+                                "Add UPI Account",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                ),
+                              );
                             }
                             if (snapshot.hasData &&
                                 snapshot.connectionState ==
                                     ConnectionState.done) {
                               return Text(
-                                  "${(snapshot.data?.email?.isEmpty ?? true) ? "Add" : "Edit"} UPI Account");
+                                "${(snapshot.data?.email?.isEmpty ?? true) ? "Add" : "Edit"} UPI Account",
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                ),
+                              );
                             }
-                            return const Text("Add UPI Account");
+                            return const Text(
+                              "Add UPI Account",
+                              style: TextStyle(
+                                fontSize: 11,
+                              ),
+                            );
                           }),
                     ),
                   ),
@@ -293,12 +307,19 @@ class _GoogleOpinionRewardScreenState
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        GoRouter.of(context).push(RouteNames.transactions);
+                        GoRouter.of(context).push(
+                          RouteNames.transactions,
+                        );
                       },
                       icon: const Icon(
                         Icons.receipt_long_rounded,
                       ),
-                      label: const Text("Transactions"),
+                      label: const Text(
+                        "Transactions",
+                        style: TextStyle(
+                          fontSize: 11,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -318,19 +339,13 @@ class _GoogleOpinionRewardScreenState
                     }),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const CustomCircularIndicator();
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const CustomCircularIndicator();
                       }
                       if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const CustomCircularIndicator();
                       }
                       if (snapshot.hasData &&
                           snapshot.connectionState == ConnectionState.done) {
@@ -344,18 +359,25 @@ class _GoogleOpinionRewardScreenState
                                     "You get ₹${(double.parse(item!.price.substring(1)) * 70) / 100} in your UPI ID"),
                                 leading: CircleAvatar(
                                   radius: 28,
+                                  backgroundColor: context.isDarkMode
+                                      ? Colors.white
+                                      : primaryBlackColor,
                                   child: Text(
                                     item.price,
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: context.isDarkMode
+                                          ? Colors.black
+                                          : Colors.white,
                                       fontSize: 12,
                                     ),
                                   ),
                                 ),
-                                trailing: Icon(Icons.shop_2_rounded,
-                                    color: context.isDarkMode
-                                        ? Colors.white
-                                        : primaryColor),
+                                trailing: Icon(
+                                  Icons.shop_2_rounded,
+                                  color: context.isDarkMode
+                                      ? Colors.white
+                                      : primaryBlackColor,
+                                ),
                                 onTap: () {
                                   purchaseID = item.id;
                                   PurchaseParam purchaseParam = PurchaseParam(
@@ -375,7 +397,7 @@ class _GoogleOpinionRewardScreenState
                               );
                             });
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return const CustomCircularIndicator();
                     }),
               ),
             ],

@@ -1,10 +1,10 @@
-import 'package:awesome_snackbar_content_new/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:one_crore_project/api/api_service.dart';
-import 'package:one_crore_project/model/post_model/user_post_model.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../model/get_model/bank_account_model.dart';
 
@@ -22,7 +22,6 @@ class _AddUPIAccountScreenState extends ConsumerState<AddUPIAccountScreen> {
   final TextEditingController _upiIdController = TextEditingController();
   final TextEditingController _paytmNumberController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  UserModel? user;
   BankAccountDetailsModel? bankAccountDetailsModel;
 
   @override
@@ -30,7 +29,6 @@ class _AddUPIAccountScreenState extends ConsumerState<AddUPIAccountScreen> {
     super.initState();
     _nameController.text = _auth.currentUser!.displayName ?? "";
     _emailController.text = _auth.currentUser!.email ?? "";
-    getUserData();
     getBankAccountDetails();
   }
 
@@ -44,17 +42,6 @@ class _AddUPIAccountScreenState extends ConsumerState<AddUPIAccountScreen> {
           _upiIdController.text = bankAccountDetailsModel.upiId ?? "";
           _paytmNumberController.text =
               bankAccountDetailsModel.paytmNumber ?? "";
-        });
-      }
-    }
-  }
-
-  getUserData() async {
-    final user = await ApiServices.getUserDetails();
-    if (user != null) {
-      if (mounted) {
-        setState(() {
-          this.user = user;
         });
       }
     }
@@ -74,7 +61,7 @@ class _AddUPIAccountScreenState extends ConsumerState<AddUPIAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            "${bankAccountDetailsModel?.email?.isEmpty ?? true ? "Add" : "Edit"} UPI Account"),
+            "${bankAccountDetailsModel?.email?.isEmpty ?? true ? "Add" : "Edit"} UPI Account",),
       ),
       persistentFooterButtons: [
         ElevatedButton(
@@ -88,32 +75,23 @@ class _AddUPIAccountScreenState extends ConsumerState<AddUPIAccountScreen> {
                 fullName: _nameController.text,
                 upiId: _upiIdController.text,
                 paytmNumber: _paytmNumberController.text,
-                userId: user?.id ?? 1,
               );
             } else {
               result = await ApiServices.editAccountDetails(
                 fullName: _nameController.text,
                 upiId: _upiIdController.text,
                 paytmNumber: _paytmNumberController.text,
-                userId: user?.id ?? 1,
               );
             }
             if (result) {
-              final snackBar = SnackBar(
-                elevation: 2,
-                behavior: SnackBarBehavior.fixed,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: "Your Account Details Saved Successfully",
-                  message: "",
-                  inMaterialBanner: true,
-                  contentType: ContentType.success,
-                ),
-              );
-
               if (mounted) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                showTopSnackBar(
+                  Overlay.of(context),
+                  const CustomSnackBar.success(
+                    message: "Your Account Details Saved Successfully",
+                  ),
+                );
+
                 GoRouter.of(context).pop();
               }
             }

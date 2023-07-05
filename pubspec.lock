@@ -65,14 +65,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.13"
-  awesome_snackbar_content_new:
-    dependency: "direct main"
-    description:
-      name: awesome_snackbar_content_new
-      sha256: "4a71e87f7a770f2bdf5fb7902308a74e916d3424f40d2241767834ba77cde5fb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   bard_api:
     dependency: "direct main"
     description:
@@ -1594,6 +1586,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  top_snackbar_flutter:
+    dependency: "direct main"
+    description:
+      name: top_snackbar_flutter
+      sha256: "22d14664a13db6ac714934c3382bd8d4daa57fb888a672f922df71981c5a5cb2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   typed_data:
     dependency: transitive
     description:

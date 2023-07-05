@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:one_crore_project/api/api_service.dart';
 import 'package:one_crore_project/constant/color.dart';
 
+import '../../../widgets/custom_circular_indicator.dart';
+
 class OpinionRewardTransactions extends StatelessWidget {
   const OpinionRewardTransactions({super.key});
 
@@ -19,9 +21,7 @@ class OpinionRewardTransactions extends StatelessWidget {
                 future: ApiServices.getTransactions(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const CustomCircularIndicator();
                   }
                   if (snapshot.hasError) {
                     return const Center(

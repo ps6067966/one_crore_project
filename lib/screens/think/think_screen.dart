@@ -37,6 +37,7 @@ class ThinkScreen extends ConsumerStatefulWidget {
 
 class _ThinkScreenState extends ConsumerState<ThinkScreen> {
   final brainStorming = FirebaseStorage.instance.ref("brain_storming.png");
+  final wisdom = FirebaseStorage.instance.ref("wisdom.png");
   final life = FirebaseStorage.instance.ref("life.png");
   RewardedAd? _rewardedAd;
   int _numRewardedLoadAttempts = 0;
@@ -50,6 +51,12 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
     ),
     ThinkModel(
       id: 2,
+      name: "Wisdom: Smarter Every Day",
+      description: "Creativity, Innovation starts with sharing",
+      imageUrl: "",
+    ),
+    ThinkModel(
+      id: 3,
       name: "Know Yourself",
       description: "Thoughts, Feelings, and Actions",
       imageUrl: "",
@@ -127,11 +134,19 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
               })
             }
         });
-    life.getDownloadURL().then((value) => {
+    wisdom.getDownloadURL().then((value) => {
           if (mounted)
             {
               setState(() {
                 thinkList[1].imageUrl = value;
+              })
+            }
+        });
+    life.getDownloadURL().then((value) => {
+          if (mounted)
+            {
+              setState(() {
+                thinkList[2].imageUrl = value;
               })
             }
         });
@@ -158,140 +173,147 @@ class _ThinkScreenState extends ConsumerState<ThinkScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
                 Expanded(
                   child: GridView.builder(
+                    shrinkWrap: true,
                     restorationId: "think_grid",
                     physics: const BouncingScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       crossAxisSpacing: 10,
-                      mainAxisSpacing: 60,
-                      mainAxisExtent: 150,
+                      mainAxisSpacing: 20,
+                      mainAxisExtent: 180,
                     ),
                     itemCount: thinkList.length,
                     itemBuilder: (context, index) {
                       final think = thinkList[index];
-                      return InkWell(
-                        onTap: () {
-                          _showRewardedAd();
-                          switch (think.id) {
-                            case 1:
-                              context.push(RouteNames.chatScreen);
-                              break;
-                            case 2:
-                              // context.push(RouteNames.knowYourselfScreen);
-                              break;
-                          }
-                        },
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.centerRight,
-                          fit: StackFit.expand,
-                          children: [
-                            Card(
-                              shadowColor: Colors.white,
-                              color: Colors.lightGreenAccent,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(60),
-                                ),
-                              ),
-                              elevation: 3,
-                              child: Container(
-                                decoration: const BoxDecoration(
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 50.0),
+                        child: InkWell(
+                          onTap: () {
+                            _showRewardedAd();
+                            switch (think.id) {
+                              case 1:
+                                context.push(RouteNames.chatScreen);
+                                break;
+                              case 2:
+                                context.push(RouteNames.wisdomScreen);
+                                break;
+                              case 3:
+                                break;
+                            }
+                          },
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.centerRight,
+                            fit: StackFit.expand,
+                            children: [
+                              Card(
+                                shadowColor: Colors.white,
+                                color: Colors.lightGreenAccent,
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(60),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                elevation: 3,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(60),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                        Text(
+                                          think.name,
+                                          style: GoogleFonts.robotoFlex(
+                                            fontSize: 22,
+                                            color: primaryBlackColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        Text(
+                                          think.description,
+                                          style: GoogleFonts.robotoFlex(
+                                            fontSize: 15,
+                                            color: primaryBlackColor,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned.fill(
+                                top: -4,
+                                left: 10,
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const SizedBox(
-                                        height: 50,
-                                      ),
-                                      Text(
-                                        think.name,
-                                        style: GoogleFonts.robotoFlex(
-                                          fontSize: 25,
-                                          color: primaryBlackColor,
-                                          fontWeight: FontWeight.bold,
+                                      SizedBox(
+                                        height: 8.0,
+                                        width: 5.0,
+                                        child: CustomPaint(
+                                          painter: TrianglePainter(),
                                         ),
-                                        textAlign: TextAlign.right,
                                       ),
-                                      Text(
-                                        think.description,
-                                        style: GoogleFonts.robotoFlex(
-                                          fontSize: 16,
-                                          color: primaryBlackColor,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: think.showCommingSoon
+                                                ? Colors.white
+                                                : primaryColor,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(6.0),
+                                                    bottomLeft:
+                                                        Radius.circular(6.0))),
+                                        width: 120.0,
+                                        height: 30.0,
+                                        child: Center(
+                                          child: Text(
+                                            think.showCommingSoon
+                                                ? 'Coming Soon'
+                                                : "Live",
+                                            style: TextStyle(
+                                                color: think.showCommingSoon
+                                                    ? primaryBlackColor
+                                                    : Colors.white),
+                                          ),
                                         ),
-                                        textAlign: TextAlign.right,
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned.fill(
-                              top: -4,
-                              left: 10,
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 8.0,
-                                      width: 5.0,
-                                      child: CustomPaint(
-                                        painter: TrianglePainter(),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: think.showCommingSoon
-                                              ? Colors.white
-                                              : primaryColor,
-                                          borderRadius: const BorderRadius.only(
-                                              topRight: Radius.circular(6.0),
-                                              bottomLeft:
-                                                  Radius.circular(6.0))),
-                                      width: 120.0,
-                                      height: 30.0,
-                                      child: Center(
-                                        child: Text(
-                                          think.showCommingSoon
-                                              ? 'Coming Soon'
-                                              : "Live",
-                                          style: TextStyle(
-                                              color: think.showCommingSoon
-                                                  ? primaryBlackColor
-                                                  : Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              Positioned.fill(
+                                top: -50,
+                                right: 10,
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: PrefetchImage(
+                                    imageUrl: think.imageUrl,
+                                    height: 100,
+                                    width: 100,
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Positioned.fill(
-                              top: -50,
-                              right: 10,
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: PrefetchImage(
-                                  imageUrl: think.imageUrl,
-                                  height: 100,
-                                  width: 100,
-                                ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

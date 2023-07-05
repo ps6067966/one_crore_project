@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:one_crore_project/constant/color.dart';
 import 'package:one_crore_project/util/utils.dart';
+import 'package:one_crore_project/widgets/custom_circular_indicator.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../widgets/progress_container_view.dart';
@@ -293,9 +294,7 @@ class ChatGptScreenState extends State<ChatGptScreen>
                               );
                             } else if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
+                              return const CustomCircularIndicator();
                             } else {
                               return Container();
                             }

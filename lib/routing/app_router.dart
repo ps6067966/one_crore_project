@@ -10,6 +10,8 @@ import 'package:one_crore_project/screens/main/main_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/privacy_screen.dart';
 import 'package:one_crore_project/screens/terms_privacy/terms_screen.dart';
 import 'package:one_crore_project/screens/think/know_yourself/know_yourself_screen.dart';
+import 'package:one_crore_project/screens/think/share_wisdom/add_wisdom_screen.dart';
+import 'package:one_crore_project/screens/think/share_wisdom/share_wisdom_screen.dart';
 
 import '../analytics/analytics.dart';
 import '../screens/chat/chat_gpt_screen.dart';
@@ -104,6 +106,18 @@ final GoRouter router = GoRouter(
       path: RouteNames.addFeedScreen,
       builder: (context, state) {
         return const AddFeedScreen();
+      },
+    ),
+    GoRoute(
+      path: RouteNames.wisdomScreen,
+      builder: (context, state) {
+        return const ShareWisdomScreen();
+      },
+    ),
+    GoRoute(
+      path: RouteNames.addWisdomScreen,
+      builder: (context, state) {
+        return const AddWisdomScreen();
       },
     ),
   ],

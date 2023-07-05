@@ -10,6 +10,8 @@ import 'package:one_crore_project/util/utils.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../widgets/custom_circular_indicator.dart';
+
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen({
     Key? key,
@@ -344,9 +346,7 @@ class ChatRoomScreenState extends State<ChatRoomScreen>
                             );
                           } else if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return const CustomCircularIndicator();
                           } else {
                             return Container();
                           }
