@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:bard_api/bard_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,8 +71,8 @@ class ChatGptScreenState extends State<ChatGptScreen>
         isProgressRunning = true;
       });
     }
-    final bard = ChatBot(sessionId: sessionId);
-    final result = await bard.ask(_chatController.text);
+    // final bard = ChatBot(sessionId: sessionId);
+    // final result = await bard.ask(_chatController.text);
     Map<String, dynamic> messages = {
       "name": _auth.currentUser?.displayName?.split(" ")[0] ?? "",
       "email_id": _auth.currentUser?.email ?? "",
@@ -92,14 +90,13 @@ class ChatGptScreenState extends State<ChatGptScreen>
       "email_id": "aibot@gmail.com",
       "photo_url":
           "https://images.ctfassets.net/foc8yxpzaiuk/WFEZbr6obtbPRG7msTVN6/3151320e157d9cfc3b282a1d6c19e743/11._Guide_to_Understanding_AI_Chatbots.jpg",
-      "message": result["content"],
+      // "message": result["content"],
       "time": FieldValue.serverTimestamp(),
     };
     chatRoomCollection
         .doc(FirebaseAuth.instance.currentUser?.email)
         .collection('chats')
         .add(messages2);
-    log("$result");
 
     if (mounted) {
       setState(() {

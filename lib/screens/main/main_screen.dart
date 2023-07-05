@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bottom_bar_matu/bottom_bar_matu.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,7 +36,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         return const FeedScreen();
       case 3:
         return const ThinkScreen();
-
       case 4:
         return const ProfileScreen();
       default:
@@ -58,8 +55,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("Main Screen");
-
     return Scaffold(
       bottomNavigationBar: BottomBarDoubleBullet(
         selectedIndex: selectedIndex,

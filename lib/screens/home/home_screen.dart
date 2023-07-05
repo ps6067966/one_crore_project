@@ -37,12 +37,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         name: "Google Opinion Rewards",
         imageUrl:
             "https://upload.wikimedia.org/wikipedia/commons/b/b1/Google_Opinion_Rewards_app_logo.png"),
-    Services(
-      id: 2,
-      name: "AI Chat Bot\n2.0",
-      imageUrl:
-          "https://images.ctfassets.net/foc8yxpzaiuk/WFEZbr6obtbPRG7msTVN6/3151320e157d9cfc3b282a1d6c19e743/11._Guide_to_Understanding_AI_Chatbots.jpg",
-    ),
   ];
 
   Future<void> _createRewardedAd() async {
