@@ -1,5 +1,4 @@
 import 'package:bottom_bar_matu/bottom_bar_matu.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +23,6 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   int selectedIndex = 2;
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   Widget page() {
     switch (selectedIndex) {

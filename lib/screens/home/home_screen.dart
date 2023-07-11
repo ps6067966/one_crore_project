@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +26,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
   RewardedAd? _rewardedAd;
   int _numRewardedLoadAttempts = 0;
   int maxFailedLoadAttempts = 3;
