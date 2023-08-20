@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:device_preview/device_preview.dart';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -40,11 +40,9 @@ Future<void> main() async {
   await Prefs.init();
   PushNotificationService.initialize();
 
-  runApp(ProviderScope(
-      child: DevicePreview(
-    enabled: false,
-    builder: (context) => const MyApp(),
-  )));
+  runApp(const ProviderScope(
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends ConsumerWidget {
