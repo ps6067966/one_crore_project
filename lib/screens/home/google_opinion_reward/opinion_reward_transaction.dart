@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:bottom_bar_matu/utils/app_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:one_crore_project/api/api_service.dart';
 import 'package:one_crore_project/constant/color.dart';
@@ -35,17 +37,40 @@ class OpinionRewardTransactions extends StatelessWidget {
                   }
 
                   return ListView.builder(
-                    itemCount: snapshot.data?.length ?? 0,
+                    itemCount: snapshot.data?.toSet().toList().length ?? 0,
                     itemBuilder: (context, index) {
-                      final transaction = snapshot.data?[index];
+                      final transaction =
+                          snapshot.data?.toSet().toList()[index];
                       log(transaction.toString());
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: ListTile(
                           tileColor: primaryBlackColor,
-                          title: Text(transaction?.productId ?? ""),
-                          subtitle: Text(transaction?.purchaseId ?? ""),
-                          trailing: Text(transaction?.transactionDate ?? ""),
+                          title: Text(
+                            transaction?.productId ?? "",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          isThreeLine: true,
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                transaction?.purchaseId ?? "",
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                Timestamp.fromMillisecondsSinceEpoch(
+                                        transaction?.transactionDate.toInt() ??
+                                            0)
+                                    .toDate()
+                                    .toString(),
+                                style: const TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

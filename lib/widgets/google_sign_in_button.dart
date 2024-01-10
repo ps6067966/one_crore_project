@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +26,11 @@ class GoogleSignButton extends ConsumerWidget {
     if (auth.currentUser != null) {
       GoRouter.of(context).push(RouteNames.mainScreen);
     } else {
-      await googleSignIn.signIn();
+      try {
+        await googleSignIn.signIn();
+      } catch (e) {
+        log("$e");
+      }
       final GoogleSignInAccount? googleUser = googleSignIn.currentUser;
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =

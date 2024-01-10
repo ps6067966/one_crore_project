@@ -35,4 +35,12 @@ class TransactionModel {
     data['transaction_date'] = transactionDate;
     return data;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TransactionModel && other.purchaseId == purchaseId;
+  }
+
+  @override
+  int get hashCode => purchaseId.hashCode;
 }
